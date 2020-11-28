@@ -1,0 +1,53 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30611.23
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{BF96E918-3D85-4AB6-81C7-C70B85D08746}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{9075C7DF-76A9-4080-ACDE-E650B0BA2E12}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Harrison314.EntityFrameworkCore.Encryption", "src\Harrison314.EntityFrameworkCore.Encryption\Harrison314.EntityFrameworkCore.Encryption.csproj", "{4458A410-DBA6-480B-A44F-765E7B9FB3A9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{16AC39B8-A895-48D4-B53A-1A2DADD6151F}"
+	ProjectSection(SolutionItems) = preProject
+		..\README.md = ..\README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{A968397F-6358-47B8-B0F1-793E669947F8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleWebApiProject", "samples\SampleWebApiProject\SampleWebApiProject.csproj", "{074639A4-FF0F-482D-A2E0-2A48D12FB5EE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Harrison314.EntityFrameworkCore.Encryption.Tests", "test\Harrison314.EntityFrameworkCore.Encryption.Tests\Harrison314.EntityFrameworkCore.Encryption.Tests.csproj", "{1597ACD3-CB40-438F-8B84-8449A93930EE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4458A410-DBA6-480B-A44F-765E7B9FB3A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4458A410-DBA6-480B-A44F-765E7B9FB3A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4458A410-DBA6-480B-A44F-765E7B9FB3A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4458A410-DBA6-480B-A44F-765E7B9FB3A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{074639A4-FF0F-482D-A2E0-2A48D12FB5EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{074639A4-FF0F-482D-A2E0-2A48D12FB5EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{074639A4-FF0F-482D-A2E0-2A48D12FB5EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{074639A4-FF0F-482D-A2E0-2A48D12FB5EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1597ACD3-CB40-438F-8B84-8449A93930EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1597ACD3-CB40-438F-8B84-8449A93930EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1597ACD3-CB40-438F-8B84-8449A93930EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1597ACD3-CB40-438F-8B84-8449A93930EE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{4458A410-DBA6-480B-A44F-765E7B9FB3A9} = {BF96E918-3D85-4AB6-81C7-C70B85D08746}
+		{074639A4-FF0F-482D-A2E0-2A48D12FB5EE} = {A968397F-6358-47B8-B0F1-793E669947F8}
+		{1597ACD3-CB40-438F-8B84-8449A93930EE} = {9075C7DF-76A9-4080-ACDE-E650B0BA2E12}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {824006CF-B329-40CA-B72C-CA9ED5C28DFA}
+	EndGlobalSection
+EndGlobal
