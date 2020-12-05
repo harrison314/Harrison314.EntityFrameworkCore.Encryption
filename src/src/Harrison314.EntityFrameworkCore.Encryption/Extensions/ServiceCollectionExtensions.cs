@@ -12,7 +12,7 @@ namespace Microsoft.Extensions.DependencyInjection
 {
     public static class ServiceCollectionExtensions
     {
-        public static EncryptedContextBuilder AddEncryptedContext<TDbContext>(this IServiceCollection serviceCollection, Action<DbContextEncryptedProviderOptions<TDbContext>> setup = null)
+        public static EncryptedContextBuilder AddEncryptedContext<TDbContext>(this IServiceCollection serviceCollection, Action<DbContextEncryptedProviderOptions<TDbContext>>? setup = null)
             where TDbContext : DbContext
         {
             serviceCollection.Configure<DbContextEncryptedProviderOptions<TDbContext>>(setup ?? (_ => { }));

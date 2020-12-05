@@ -9,7 +9,7 @@ namespace Harrison314.EntityFrameworkCore.Encryption
 {
     internal sealed class EncryptedScopeCreator : IEncryptedScopeCreator
     {
-        private IEncryptionContext context;
+        private IEncryptionContext? context;
 
         public EncryptedScopeCreator(IEncryptionContext context)
         {
@@ -17,7 +17,7 @@ namespace Harrison314.EntityFrameworkCore.Encryption
         }
         public IDisposable IntoScope()
         {
-            IEncryptionContext ctx = this.context;
+            IEncryptionContext? ctx = this.context;
             this.context = null;
             if (ctx == null)
             {

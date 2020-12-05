@@ -23,7 +23,7 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Internal
         {
             if (purpose == null) throw new ArgumentNullException(nameof(purpose));
 
-            IPropertyEncryptor propertyEncryptor;
+            IPropertyEncryptor? propertyEncryptor;
             if (this.cahce.TryGetValue(purpose, out propertyEncryptor))
             {
                 return propertyEncryptor;

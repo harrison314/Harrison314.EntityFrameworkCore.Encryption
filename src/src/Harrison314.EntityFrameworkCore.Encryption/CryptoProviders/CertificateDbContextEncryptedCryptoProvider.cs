@@ -33,7 +33,7 @@ namespace Harrison314.EntityFrameworkCore.Encryption.CryptoProviders
         {
             if (masterKeyData == null) throw new ArgumentNullException(nameof(masterKeyData));
 
-            byte[] key = this.certificate.GetRSAPrivateKey().Decrypt(masterKeyData.Data, RSAEncryptionPadding.OaepSHA256);
+            byte[] key = this.certificate.GetRSAPrivateKey()!.Decrypt(masterKeyData.Data, RSAEncryptionPadding.OaepSHA256);
             return new ValueTask<byte[]>(key);
         }
 
@@ -43,7 +43,7 @@ namespace Harrison314.EntityFrameworkCore.Encryption.CryptoProviders
 
             MasterKeyData masterKeyData = new MasterKeyData()
             {
-                Data = this.certificate.GetRSAPublicKey().Encrypt(masterKey, RSAEncryptionPadding.OaepSHA256),
+                Data = this.certificate.GetRSAPublicKey()!.Encrypt(masterKey, RSAEncryptionPadding.OaepSHA256),
                 KeyId = this.certificate.Thumbprint,
                 Parameters = "{\"RsaParams\":\"OaepSHA256\"}"
             };

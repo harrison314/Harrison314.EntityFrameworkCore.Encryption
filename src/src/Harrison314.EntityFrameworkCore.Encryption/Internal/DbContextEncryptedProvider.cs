@@ -57,7 +57,7 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Internal
                 }
             }
 
-            return new EncryptedScopeCreator(this.cacheItem.Context);
+            return new EncryptedScopeCreator(this.cacheItem.Context!);
         }
 
         public async Task ReEncrypted(IDbContextEncryptedCryptoProvider fromProvider, IDbContextEncryptedCryptoProvider toProvider, CancellationToken cancellationToken = default)
@@ -71,7 +71,7 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Internal
             {
                 MasterKeyData newMasterKeyData = await toProvider.EncryptMasterKey(masterKey, cancellationToken);
 
-                (TDbContext context, IDisposable scope) = this.CreateContext();
+                (TDbContext context, IDisposable? scope) = this.CreateContext();
                 try
                 {
                     DbSet<EcCdeMasterKey> keySet = context.Set<EcCdeMasterKey>();
@@ -114,7 +114,7 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Internal
 
         private async Task EnshureEncryptionKeyInDb(CancellationToken cancellationToken)
         {
-            (TDbContext context, IDisposable scope) = this.CreateContext();
+            (TDbContext context, IDisposable? scope) = this.CreateContext();
             try
             {
                 DbSet<EcCdeMasterKey> keySet = context.Set<EcCdeMasterKey>();
@@ -151,7 +151,7 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Internal
 
         private async Task<MasterKeyData> GetMasterKeyData(CancellationToken cancellationToken)
         {
-            (TDbContext context, IDisposable scope) = this.CreateContext();
+            (TDbContext context, IDisposable? scope) = this.CreateContext();
             try
             {
                 DbSet<EcCdeMasterKey> keySet = context.Set<EcCdeMasterKey>();
@@ -178,7 +178,7 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Internal
             }
         }
 
-        private (TDbContext context, IDisposable scope) CreateContext()
+        private (TDbContext context, IDisposable? scope) CreateContext()
         {
             DbContextEncryptedProviderOptions<TDbContext> configuration = this.providerOptions.Value;
             if (configuration.DbContextFactory != null)
@@ -194,7 +194,7 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Internal
             }
         }
 
-        private void CleanContextSafe(TDbContext context, IDisposable scope)
+        private void CleanContextSafe(TDbContext context, IDisposable? scope)
         {
             DbContextEncryptedProviderOptions<TDbContext> configuration = this.providerOptions.Value;
 

@@ -10,7 +10,7 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Internal.Lzw
 
         }
 
-        public bool Equals(List<byte> left, List<byte> right)
+        public bool Equals(List<byte>? left, List<byte>? right)
         {
             if (left == null || right == null)
             {

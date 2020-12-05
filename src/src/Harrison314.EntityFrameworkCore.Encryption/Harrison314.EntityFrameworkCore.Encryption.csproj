@@ -10,6 +10,7 @@
     <RepositoryUrl>https://github.com/harrison314/Harrison314.EntityFrameworkCore.Encryption/</RepositoryUrl>
     <Description>Library adds transparent data encryption to Entity Framework Core 5.0 inspired TDE from MS SQL Server.</Description>
     <PackageIcon>NugetIcon.png</PackageIcon>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>

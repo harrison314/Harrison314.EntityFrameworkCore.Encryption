@@ -10,7 +10,7 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Extensions
 {
     public static class ModelBuilderExtensions
     {
-        public static ModelBuilder AddEncryptionContext(this ModelBuilder modelBuilder, Action<EntityTypeBuilder<EcCdeMasterKey>> buildAction = null)
+        public static ModelBuilder AddEncryptionContext(this ModelBuilder modelBuilder, Action<EntityTypeBuilder<EcCdeMasterKey>>? buildAction = null)
         {
             modelBuilder.Entity<EcCdeMasterKey>(p =>
             {

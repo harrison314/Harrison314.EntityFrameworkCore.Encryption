@@ -10,13 +10,13 @@ namespace Harrison314.EntityFrameworkCore.Encryption
     public class DbContextEncryptedProviderOptions<TDbContext>
         where TDbContext : DbContext
     {
-        public Func<IServiceProvider, TDbContext> DbContextFactory
+        public Func<IServiceProvider, TDbContext>? DbContextFactory
         {
             get;
             set;
         }
 
-        public Action<TDbContext> DbContextCreanup
+        public Action<TDbContext>? DbContextCreanup
         {
             get;
             set;
@@ -30,7 +30,9 @@ namespace Harrison314.EntityFrameworkCore.Encryption
 
         public DbContextEncryptedProviderOptions()
         {
-
+            this.DbContextFactory = null;
+            this.DbContextCreanup = null;
+            this.EncryptionContextExpirtaion = null;
         }
     }
 }

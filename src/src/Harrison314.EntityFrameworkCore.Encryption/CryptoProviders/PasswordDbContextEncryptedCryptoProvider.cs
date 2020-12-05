@@ -29,11 +29,13 @@ namespace Harrison314.EntityFrameworkCore.Encryption.CryptoProviders
         {
             if (masterKey == null) throw new ArgumentNullException(nameof(masterKey));
 
-            PasswordData passwordData = new PasswordData();
-            passwordData.Iterations = 10000;
-            passwordData.PasswordSalt = new byte[16];
-            passwordData.AesGcmNonce = new byte[AesGcm.NonceByteSizes.MaxSize];
-            passwordData.AesGcmTag = new byte[AesGcm.TagByteSizes.MaxSize];
+            PasswordData passwordData = new PasswordData()
+            {
+                Iterations = 10000,
+                PasswordSalt = new byte[16],
+                AesGcmNonce = new byte[AesGcm.NonceByteSizes.MaxSize],
+                AesGcmTag = new byte[AesGcm.TagByteSizes.MaxSize]
+            };
 
             RandomNumberGenerator.Fill(passwordData.PasswordSalt);
             RandomNumberGenerator.Fill(passwordData.AesGcmNonce);
@@ -59,7 +61,12 @@ namespace Harrison314.EntityFrameworkCore.Encryption.CryptoProviders
         {
             if (masterKeyData == null) throw new ArgumentNullException(nameof(masterKeyData));
 
-            PasswordData passwordData = System.Text.Json.JsonSerializer.Deserialize<PasswordData>(masterKeyData.Parameters);
+            PasswordData? passwordData = System.Text.Json.JsonSerializer.Deserialize<PasswordData>(masterKeyData.Parameters);
+            if (passwordData == null)
+            {
+                throw new InvalidOperationException("Invalid masterKeyData parameters.");
+            }
+
             byte[] key = this.DerieveKey(passwordData);
 
             byte[] decryptedKey = new byte[masterKeyData.Data.Length];

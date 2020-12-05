@@ -9,7 +9,7 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Internal
 {
     internal sealed class EncryptedContextCacheItem : IDisposable
     {
-        public IEncryptionContext Context
+        public IEncryptionContext? Context
         {
             get;
             private set;

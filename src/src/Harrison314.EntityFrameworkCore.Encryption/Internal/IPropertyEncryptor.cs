@@ -8,8 +8,8 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Internal
 {
     public interface IPropertyEncryptor
     {
-        byte[] Protect(byte[] data);
+        byte[]? Protect(byte[] data);
 
-        byte[] Unprotect(byte[] data);
+        byte[]? Unprotect(byte[] data);
     }
 }

@@ -9,12 +9,12 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Internal
 
         }
 
-        public byte[] Protect(byte[] data)
+        public byte[]? Protect(byte[] data)
         {
             return null;
         }
 
-        public byte[] Unprotect(byte[] data)
+        public byte[]? Unprotect(byte[] data)
         {
             return null;
         }

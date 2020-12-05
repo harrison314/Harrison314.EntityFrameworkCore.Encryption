@@ -5,30 +5,32 @@
         public int Iterations
         {
             get;
-            set;
+            init;
         }
 
         public byte[] PasswordSalt
         {
             get;
-            set;
+            init;
         }
 
         public byte[] AesGcmNonce
         {
             get;
-            set;
+            init;
         }
 
         public byte[] AesGcmTag
         {
             get;
-            set;
+            init;
         }
 
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         public PasswordData()
         {
 
         }
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
     }
 }

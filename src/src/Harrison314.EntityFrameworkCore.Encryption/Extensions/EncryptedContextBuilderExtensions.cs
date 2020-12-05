@@ -48,7 +48,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 _ => throw new InvalidProgramException($"Enum value {storeType} is not supported.")
             };
 
-            X509Certificate2 certificate = null;
+            X509Certificate2? certificate = null;
             using (X509Store store = new X509Store(StoreName.My, location))
             {
                 store.Open(OpenFlags.ReadOnly);

@@ -25,9 +25,9 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Internal
             }
         }
 
-        static readonly AsyncLocal<ImmutableStack<IEncryptionContext>> Data = new AsyncLocal<ImmutableStack<IEncryptionContext>>();
+        static readonly AsyncLocal<ImmutableStack<IEncryptionContext>?> Data = new AsyncLocal<ImmutableStack<IEncryptionContext>?>();
 
-        private static ImmutableStack<IEncryptionContext> CurrentStack
+        private static ImmutableStack<IEncryptionContext>? CurrentStack
         {
             get => Data.Value;
             set => Data.Value = value;
@@ -53,7 +53,7 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Internal
         {
             get
             {
-                ImmutableStack<IEncryptionContext> enrichers = CurrentStack;
+                ImmutableStack<IEncryptionContext>? enrichers = CurrentStack;
                 return !(enrichers == null || enrichers.IsEmpty);
             }
         }
@@ -90,7 +90,7 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Internal
 
         private static ImmutableStack<IEncryptionContext> GetOrCreateEnricherStack()
         {
-            ImmutableStack<IEncryptionContext> enrichers = CurrentStack;
+            ImmutableStack<IEncryptionContext>? enrichers = CurrentStack;
             if (enrichers == null)
             {
                 enrichers = ImmutableStack<IEncryptionContext>.Empty;
