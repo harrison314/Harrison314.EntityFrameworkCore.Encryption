@@ -1,11 +1,38 @@
 # Harrison314.EntityFrameworkCore.Encryption
-Add transparent data encryption to Entity Framework Core inspired TDE from MS SQL Server.
+Add transparent data encryption to Entity Framework Core inspired [TDE from MS SQL Server](https://docs.microsoft.com/en-us/sql/relational-databases/security/encryption/transparent-data-encryption?view=sql-server-ver15).
+
+_Harrison314.EntityFrameworkCore.Encryption_ is a [Microsoft Entity Framework Core](https://github.com/dotnet/efcore) extension to add support of encrypted fields using built-in or custom encryption providers.
 
 **Work in progress**
 
-## Usage
+## Features
+* Key rotation.
+* Simple for use.
+* Deterministic or rnadomized encryption.
+* Build on standard cryptographic algorithms (AES, HMAC SHA, SP800-120, PBKDF-2,...).
+* Internal or external (out of process or on another server e.c. Azure Key Valut) encryption providers.
+* Encryption providers:
+  * Password (only for testyng),
+  * Ceratiricate (Recomandedt use with Windows store with non exportable private keys or SmartCard.),
+  * PKCS11 data objects (in samples), **Work in progress**
+  * Azure Key Valut (in samples), **Work in progress**
+  * Remote provider, **Work in progress**
+  * Custom provider. **Work in progress**
+
+## Hig-level application architecture
+**Work in progress**
+
+## Cryptography
+The following dataflow diagram shows the encryption and derivation of the key for a record property.
+
+![Dataflow encryption randomized](doc/Dataflow_encryption_randomized.png)
+
+
+## How to use
 
 ### Sample data model
+Original data model:
+
 ```cs
  public class Patient
 {
@@ -65,8 +92,10 @@ public class SampleDbContext : DbContext
     }
 }
 ```
+### 1. Install nuget package
+TODO
 
-### 1. Register encryption services to DI
+### 2. Register encryption services to DI
 
 In `Startup.cs` register _DbContext_ and _Encryption Context_ for _DbContext_:
 ```cs
@@ -81,12 +110,12 @@ public void ConfigureServices(IServiceCollection services)
         .WithPasswordEncryptionProvider("Passw0rd*"); // Password provider is only for testing, use other provider
 }
 ```
-### 2. Update DbContext
+### 3. Update DbContext
 Insert `AddEncryptionContext` to `ModelBuilder` and mark encrypted properies with purpose, algorithm and mode.
 
 * _purpose_ - must by uniq string for property in context. Do not change after deploy to production!
-* algorithm - chiper and AEAD algorithm.
-* mode - Deterministic or randomized.
+* _algorithm_ - chiper and AEAD algorithm.
+* _mode_ - Deterministic or randomized.
 
 ```cs
 public class SampleDbContext : DbContext
@@ -115,9 +144,15 @@ public class SampleDbContext : DbContext
         modelBuilder.Entity<Patient>(p =>
         {
             p.HasKey(t => t.Id);
-            p.Property(t => t.FirstName).HasEncrypted("Patient.FirstName", EncrypetionType.AEAD_AES_256_CBC_HMAC_SHA_256, EncryptionMode.Randomized).IsRequired().HasMaxLength(150);
-            p.Property(t => t.LastName).HasEncrypted("Patient.LastName", EncrypetionType.AEAD_AES_256_CBC_HMAC_SHA_256, EncryptionMode.Randomized).IsRequired().HasMaxLength(150);
-            p.Property(t => t.SocialSecurityNumber).HasEncrypted("Patient.LastName", EncrypetionType.AEAD_AES_256_CBC_HMAC_SHA_256, EncryptionMode.Deterministic).IsRequired().HasMaxLength(150);
+            p.Property(t => t.FirstName)
+              .HasEncrypted("Patient.FirstName", EncrypetionType.AEAD_AES_256_CBC_HMAC_SHA_256, EncryptionMode.Randomized)
+              .IsRequired().HasMaxLength(150);
+            p.Property(t => t.LastName)
+              .HasEncrypted("Patient.LastName", EncrypetionType.AEAD_AES_256_CBC_HMAC_SHA_256, EncryptionMode.Randomized)
+              .IsRequired().HasMaxLength(150);
+            p.Property(t => t.SocialSecurityNumber)
+              .HasEncrypted("Patient.LastName", EncrypetionType.AEAD_AES_256_CBC_HMAC_SHA_256, EncryptionMode.Deterministic)
+              .IsRequired().HasMaxLength(150);
             p.Property(t => t.Notes).HasDefaultValue(string.Empty);
             p.HasMany(t => t.Visists).WithOne(t => t.Patient).HasForeignKey(t => t.PatientId);
         });
