@@ -6,6 +6,7 @@ _Harrison314.EntityFrameworkCore.Encryption_ is a [Microsoft Entity Framework Co
 **Work in progress**
 
 ## Features
+* Database agnostic (tested on Sqlite, MS SQL Server, PostgreSQL, Azure CosmosDB).
 * Key rotation.
 * Simple for use.
 * Deterministic or rnadomized encryption.
@@ -19,8 +20,10 @@ _Harrison314.EntityFrameworkCore.Encryption_ is a [Microsoft Entity Framework Co
   * Remote provider, **Work in progress**
   * Custom provider. **Work in progress**
 
-## Hig-level application architecture
+## High-level application architecture
 **Work in progress**
+
+![High-level application architecture](doc/Highlevel_diagram.png)
 
 ## Cryptography
 The following dataflow diagram shows the encryption and derivation of the key for a record property.
