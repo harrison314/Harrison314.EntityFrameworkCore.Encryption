@@ -9,7 +9,7 @@ _Harrison314.EntityFrameworkCore.Encryption_ is a [Microsoft Entity Framework Co
 * Key rotation.
 * Simple for use.
 * Deterministic or rnadomized encryption.
-* Build on standard cryptographic algorithms (AES, HMAC SHA, SP800-120, PBKDF-2,...).
+* Build on standard cryptographic algorithms (AES, HMAC SHA, SP800-108, PBKDF-2,...).
 * Internal or external (out of process or on another server e.c. Azure Key Valut) encryption providers.
 * Encryption providers:
   * Password (only for testyng),

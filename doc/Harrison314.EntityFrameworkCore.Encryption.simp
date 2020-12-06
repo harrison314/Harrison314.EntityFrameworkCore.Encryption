@@ -41,7 +41,7 @@
       </counter>
       <counter>
         <item-type type-id="dfd-external" type="External" />
-        <value>4</value>
+        <value>5</value>
       </counter>
       <counter>
         <item-type type-id="drawing-shape" type="Simple Shape" />
@@ -55,7 +55,7 @@
     <entity-ids>
       <counter>
         <item-type type-id="group" type="Group" />
-        <value>459</value>
+        <value>504</value>
       </counter>
       <counter>
         <item-type type-id="interaction" type="Interaction" />
@@ -95,7 +95,7 @@
       </counter>
       <counter>
         <item-type type-id="dfd-data-flow" type="Data Flow" />
-        <value>18</value>
+        <value>20</value>
       </counter>
       <counter>
         <item-type type-id="dfd-gate" type="Gate" />
@@ -103,7 +103,7 @@
       </counter>
       <counter>
         <item-type type-id="dfd-external" type="External" />
-        <value>5</value>
+        <value>7</value>
       </counter>
       <counter>
         <item-type type-id="drawing-shape" type="Simple Shape" />
@@ -213,7 +213,7 @@
       </meta>
       <abstract-items />
       <sub-models />
-      <diagram type="data-flow" id="p67363e8165304343aec0521541a5a6da_591822724" name="DataFlow_Encryption_randomized" order-index="3" overview-order-index="1" uid="" show-id="false" show-name="true" show-parent-name="false" name-style="local-auto-parents" show-stereotypes="true" show-tagged-values="false" show-template-parameters="true" show-fields="true" show-field-tags="true" show-empty-compartments="true" show-special-indicators="false" show-rules="true" show-attributes="true" show-attribute-visibility="true" show-operations="true" show-operation-parameters="true" show-operation-visibility="true" show-visibility-sign="true" show-nullability="true" show-sequence-number="false" show-extension-points="false" show-relationship-texts="true" show-data="true" show-description="false" show-field-description="false" auto-routed-paths="false" default-line-style="default" view-location="-47,41">
+      <diagram type="data-flow" id="p67363e8165304343aec0521541a5a6da_591822724" name="DataFlow_Encryption_randomized" order-index="3" overview-order-index="1" uid="" show-id="false" show-name="true" show-parent-name="false" name-style="local-auto-parents" show-stereotypes="true" show-tagged-values="false" show-template-parameters="true" show-fields="true" show-field-tags="true" show-empty-compartments="true" show-special-indicators="false" show-rules="true" show-attributes="true" show-attribute-visibility="true" show-operations="true" show-operation-parameters="true" show-operation-visibility="true" show-visibility-sign="true" show-nullability="true" show-sequence-number="false" show-extension-points="false" show-relationship-texts="true" show-data="true" show-description="false" show-field-description="false" auto-routed-paths="false" default-line-style="default" view-location="0,41">
         <style>
           <background-color index="1" color="#FFFFFFFF" />
           <background-color index="2" color="#FFFFFFFF" />
@@ -225,24 +225,24 @@
           </authors>
           <description />
           <creation-date>12/06/2020 09:39:58</creation-date>
-          <change-date>12/06/2020 12:05:42</change-date>
+          <change-date>12/06/2020 12:22:15</change-date>
           <revision-count>0</revision-count>
           <version />
         </meta>
         <abstract-items>
-          <item id="efdfbcea5d1345729f0015ac52fb8e7b" cid="DFS001" type="dfd-data-store" name="Encrypted Master key in DB" style-class="" change-tracking-state="added" creation-date="12/06/2020 09:40:04" />
+          <item id="efdfbcea5d1345729f0015ac52fb8e7b" cid="DFS001" type="dfd-external" name="Encrypted Master key in DB" style-class="" change-tracking-state="added" creation-date="12/06/2020 09:40:04" />
           <item id="9b1b6da2ae9641b68dcd41aa932b3d17" cid="DFP001" type="dfd-process" name="Find and decrypt master key" style-class="" change-tracking-state="added" creation-date="12/06/2020 09:40:08" />
           <item id="dfa0af5c176d448c81973b8610c0d02a" cid="DFF001" type="dfd-data-flow" name="" style-class="" change-tracking-state="added" creation-date="12/06/2020 09:40:11" from="efdfbcea5d1345729f0015ac52fb8e7b" to="9b1b6da2ae9641b68dcd41aa932b3d17" />
           <item id="ac937cb6b82e485692e7e3d9ab2c3c71" cid="DFS002" type="dfd-data-store" name="External secrit store" style-class="" change-tracking-state="added" creation-date="12/06/2020 09:41:03" />
           <item id="4201af607e3a433fb64ba002f61acac6" cid="DFF002" type="dfd-data-flow" name="" style-class="" change-tracking-state="added" creation-date="12/06/2020 09:41:19" to="9b1b6da2ae9641b68dcd41aa932b3d17" />
           <item id="adb624a21f5f4c31a3b077e3447f0d0a" cid="DFG001" type="dfd-gate" name="Gate1" style-class="" change-tracking-state="added" creation-date="12/06/2020 09:41:31" />
           <item id="c4f79de6f33442f9a030601ac8dc1bbc" cid="DFG002" type="dfd-gate" name="Gate2" style-class="" change-tracking-state="added" creation-date="12/06/2020 09:41:50" />
-          <item id="040d65233ba54462843f185839534051" cid="DFP002" type="dfd-process" name="KDF SP800-120" style-class="" change-tracking-state="added" creation-date="12/06/2020 09:42:03" />
+          <item id="040d65233ba54462843f185839534051" cid="DFP002" type="dfd-process" name="KDF SP800-108" style-class="" change-tracking-state="added" creation-date="12/06/2020 09:42:03" />
           <item id="a70bf2ab03b84079accdae8aacecf7fd" cid="DFF003" type="dfd-data-flow" name="Master key" style-class="" change-tracking-state="added" creation-date="12/06/2020 09:42:25" from="9b1b6da2ae9641b68dcd41aa932b3d17" to="040d65233ba54462843f185839534051" />
           <item id="85c9d7e4eba94590be6757836a8e2c66" cid="DFS003" type="dfd-data-store" name="Purpose for encrypted property" style-class="" change-tracking-state="added" creation-date="12/06/2020 09:42:39" />
           <item id="8b6b4bcaee734571b37b1a67a7e6ebd8" cid="DFF004" type="dfd-data-flow" name="" style-class="" change-tracking-state="added" creation-date="12/06/2020 09:43:03" from="85c9d7e4eba94590be6757836a8e2c66" to="040d65233ba54462843f185839534051" />
           <item id="879123fa856544bbabf6ca38b7ca1955" cid="DFF005" type="dfd-data-flow" name="Purpose" style-class="" change-tracking-state="added" creation-date="12/06/2020 09:43:16" from="85c9d7e4eba94590be6757836a8e2c66" to="040d65233ba54462843f185839534051" />
-          <item id="e020651a57b74a648227116c23adcc11" cid="DFP003" type="dfd-process" name="KDF SP800-120" style-class="" change-tracking-state="added" creation-date="12/06/2020 09:44:46" />
+          <item id="e020651a57b74a648227116c23adcc11" cid="DFP003" type="dfd-process" name="KDF SP800-108" style-class="" change-tracking-state="added" creation-date="12/06/2020 09:44:46" />
           <item id="9536cae332b645b29ae6807762aba4e0" cid="DFF006" type="dfd-data-flow" name="Property key" style-class="" change-tracking-state="added" creation-date="12/06/2020 09:45:04" from="040d65233ba54462843f185839534051" to="e020651a57b74a648227116c23adcc11" />
           <item id="0d47667ca56c45609c104a9aa9826311" cid="DFP004" type="dfd-process" name="Cryptographic RNG" style-class="" change-tracking-state="added" creation-date="12/06/2020 09:45:14" />
           <item id="32fff74c7f56467b89527af867f7d109" cid="DFF007" type="dfd-data-flow" name="Random seed" style-class="" change-tracking-state="added" creation-date="12/06/2020 09:45:37" from="0d47667ca56c45609c104a9aa9826311" to="e020651a57b74a648227116c23adcc11" />
@@ -271,25 +271,16 @@
           <item id="d5ee0ec7cbe94089ae8c52147860429a" cid="DFS005" type="dfd-data-store" name="DataStore5" style-class="" change-tracking-state="added" creation-date="12/06/2020 09:57:51" />
           <item id="5ae2b81db6de416ab5b70018d63af2c4" cid="DFS006" type="dfd-data-store" name="DataStore6" style-class="" change-tracking-state="added" creation-date="12/06/2020 09:57:53" />
           <item id="9e04fd36b303452ea0dfbff818214ae5" cid="DFF017" type="dfd-data-flow" name="IV" style-class="" change-tracking-state="added" creation-date="12/06/2020 10:18:10" from="0d47667ca56c45609c104a9aa9826311" to="de4b988e68834788a0447b3e50438774" />
+          <item id="fd101c8ce2a948c1bf448a9997ef6295" cid="DFE006" type="dfd-external" name="Encrypted Master key in DB" style-class="" change-tracking-state="added" creation-date="12/06/2020 12:21:45" />
+          <item id="d29593fe3bee4c30bab6f878fa77b345" cid="DFF018" type="dfd-data-flow" name="" style-class="" change-tracking-state="added" creation-date="12/06/2020 12:21:53" from="fd101c8ce2a948c1bf448a9997ef6295" to="9b1b6da2ae9641b68dcd41aa932b3d17" />
+          <item id="d66779167f0b465996cbbfa9a68351e5" cid="DFF019" type="dfd-data-flow" name="" style-class="" change-tracking-state="added" creation-date="12/06/2020 12:22:15" from="fd101c8ce2a948c1bf448a9997ef6295" to="9b1b6da2ae9641b68dcd41aa932b3d17" />
         </abstract-items>
         <layer id="f41009909a264dfabbb17e6034157928" name="Default" visible="true" enabled="true" locked="false">
           <item id="bdc1758f2e1c4c1a8bd7bb14a5f4a6e5" iid="8f43937f989a4759913ee510044095e9" creation-date="12/06/2020 09:55:45" order-index="25" type="entity">
             <layout ax="153" ay="380" awidth="412" aheight="157" x="153" y="380" width="412" height="157" rotation-center="3,-21.5" />
           </item>
-          <item id="efdfbcea5d1345729f0015ac52fb8e7b" iid="8f6e4fed66bd43dea2530a8b414bb364" creation-date="12/06/2020 09:40:04" order-index="0" type="entity">
-            <layout ax="120.5" ay="70" awidth="215" aheight="50" x="120.5" y="70" width="120" height="50" />
-          </item>
           <item id="9b1b6da2ae9641b68dcd41aa932b3d17" iid="a59dd60e09b94f6283506f6257ba74a0" creation-date="12/06/2020 09:40:08" order-index="1" type="entity">
             <layout ax="168" ay="205" awidth="120" aheight="90" x="168" y="205" width="120" height="90" />
-          </item>
-          <item id="dfa0af5c176d448c81973b8610c0d02a" iid="05b8855ad1ad46ad8c26ea0844134324" creation-date="12/06/2020 09:40:11" order-index="2" type="relation">
-            <layout line-style="oblique" lock-start-point="true" lock-end-point="true" lock-to-fields="false" auto-path="" x1="228" y1="120" x2="228" y2="205" start-border-pos="0.625" end-border-pos="0.125" start-local-pos="60" end-local-pos="60" name-position="0,20">
-              <points>
-                <point x="228" y="120" />
-                <point x="228" y="205" />
-              </points>
-            </layout>
-            <relation from="efdfbcea5d1345729f0015ac52fb8e7b" from-iid="8f6e4fed66bd43dea2530a8b414bb364" to="9b1b6da2ae9641b68dcd41aa932b3d17" to-iid="a59dd60e09b94f6283506f6257ba74a0" />
           </item>
           <item id="040d65233ba54462843f185839534051" iid="d638d82033914bf086a41c6f88f246c8" creation-date="12/06/2020 09:42:03" order-index="5" type="entity">
             <layout ax="428" ay="205" awidth="120" aheight="90" x="428" y="214" width="120" height="90" />
@@ -443,6 +434,18 @@
               </points>
             </layout>
             <relation from="707ee2055b544806a298c6ea91bd8cfc" from-iid="66610760466f406eafc3a85afc510781" to="9b1b6da2ae9641b68dcd41aa932b3d17" to-iid="a59dd60e09b94f6283506f6257ba74a0" />
+          </item>
+          <item id="fd101c8ce2a948c1bf448a9997ef6295" iid="b49592bcb4734ef9ad47b1491192f62a" creation-date="12/06/2020 12:21:45" order-index="32" type="entity">
+            <layout ax="168" ay="71" awidth="120" aheight="70" x="168" y="71" width="120" height="70" />
+          </item>
+          <item id="d66779167f0b465996cbbfa9a68351e5" iid="f67fffdda13649929aa8ddc6bdf44781" creation-date="12/06/2020 12:22:15" order-index="33" type="relation">
+            <layout line-style="oblique" lock-start-point="true" lock-end-point="true" lock-to-fields="false" auto-path="" x1="228" y1="141" x2="228" y2="205" start-border-pos="0.625" end-border-pos="0.125" start-local-pos="60" end-local-pos="60" name-position="0,20">
+              <points>
+                <point x="228" y="141" />
+                <point x="228" y="205" />
+              </points>
+            </layout>
+            <relation from="fd101c8ce2a948c1bf448a9997ef6295" from-iid="b49592bcb4734ef9ad47b1491192f62a" to="9b1b6da2ae9641b68dcd41aa932b3d17" to-iid="a59dd60e09b94f6283506f6257ba74a0" />
           </item>
         </layer>
       </diagram>
