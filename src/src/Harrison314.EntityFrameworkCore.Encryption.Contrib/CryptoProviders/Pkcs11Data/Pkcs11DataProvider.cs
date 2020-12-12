@@ -65,13 +65,13 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Contrib.CryptoProviders.Pkc
                 session.Factories.ObjectAttributeFactory.Create(CKA.CKA_CLASS, CKO.CKO_DATA),
                 session.Factories.ObjectAttributeFactory.Create(CKA.CKA_TOKEN, true),
                 session.Factories.ObjectAttributeFactory.Create(CKA.CKA_PRIVATE, true),
-                session.Factories.ObjectAttributeFactory.Create(CKA.CKA_ID, masterKeyData.KeyId),
+                session.Factories.ObjectAttributeFactory.Create(CKA.CKA_OBJECT_ID, masterKeyData.KeyId),
             };
 
             List<CKA> findAttributesTempalte = new List<CKA>()
             {
-                CKA.CKA_ID,
-                CKA.CKA_LABEL,
+                CKA.CKA_OBJECT_ID,
+                CKA.CKA_APPLICATION,
                 CKA.CKA_VALUE
             };
 
@@ -84,7 +84,7 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Contrib.CryptoProviders.Pkc
                 string ckaId = values[0].GetValueAsString();
                 string ckaLabel = values[1].GetValueAsString();
 
-                if (this.pkcs11Options.Value.DataObjectFilter((ckaId, ckaLabel)))
+                if (this.pkcs11Options.Value.DataObjectFilter(new DataInfo(ckaId, ckaLabel)))
                 {
                     byte[] data = values[2].GetValueAsByteArray();
                     Pkcs11SecritData pkcs11SecritData = System.Text.Json.JsonSerializer.Deserialize<Pkcs11SecritData>(masterKeyData.Parameters);
@@ -131,13 +131,13 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Contrib.CryptoProviders.Pkc
                 session.Factories.ObjectAttributeFactory.Create(CKA.CKA_CLASS, CKO.CKO_DATA),
                 session.Factories.ObjectAttributeFactory.Create(CKA.CKA_TOKEN, true),
                 session.Factories.ObjectAttributeFactory.Create(CKA.CKA_PRIVATE, true),
-                session.Factories.ObjectAttributeFactory.Create(CKA.CKA_ID, this.pkcs11Options.Value.MainDataKeyId),
+                session.Factories.ObjectAttributeFactory.Create(CKA.CKA_OBJECT_ID, this.pkcs11Options.Value.MainDataKeyId),
             };
 
             List<CKA> findAttributesTempalte = new List<CKA>()
             {
-                CKA.CKA_ID,
-                CKA.CKA_LABEL,
+                CKA.CKA_OBJECT_ID,
+                CKA.CKA_APPLICATION,
                 CKA.CKA_VALUE
             };
 
@@ -147,10 +147,10 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Contrib.CryptoProviders.Pkc
 
                 List<IObjectAttribute> values = session.GetAttributeValue(dataHandle, findAttributesTempalte);
 
-                string ckaId = values[0].GetValueAsString();
-                string ckaLabel = values[1].GetValueAsString();
+                string ckaObjectId = values[0].GetValueAsString();
+                string ckaApplication = values[1].GetValueAsString();
 
-                if (this.pkcs11Options.Value.DataObjectFilter((ckaId, ckaLabel)))
+                if (this.pkcs11Options.Value.DataObjectFilter(new DataInfo(ckaObjectId, ckaApplication)))
                 {
                     byte[] data = values[2].GetValueAsByteArray();
                     byte[] key = this.DerieveKey(data, pkcs11SeecritData);
@@ -163,7 +163,7 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Contrib.CryptoProviders.Pkc
                     MasterKeyData masterKeyData = new MasterKeyData()
                     {
                         Data = encryptedKey,
-                        KeyId = ckaId,
+                        KeyId = ckaObjectId,
                         Parameters = System.Text.Json.JsonSerializer.Serialize(pkcs11SeecritData)
                     };
 
@@ -171,7 +171,7 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Contrib.CryptoProviders.Pkc
                 }
                 else
                 {
-                    this.logger.LogDebug("Skip data object witj keyId: {keyId} label: {label}. Not match data object filter.", ckaId, ckaLabel);
+                    this.logger.LogDebug("Skip data object witj keyId: {keyId} label: {label}. Not match data object filter.", ckaObjectId, ckaApplication);
                 }
             }
 
@@ -197,8 +197,8 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Contrib.CryptoProviders.Pkc
 
             List<CKA> findAttributesTempalte = new List<CKA>()
             {
-                CKA.CKA_ID,
-                CKA.CKA_LABEL
+                CKA.CKA_OBJECT_ID,
+                CKA.CKA_APPLICATION
             };
 
             foreach (IObjectHandle dataHandle in session.FindAllObjects(attributesTemplate))
@@ -207,20 +207,20 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Contrib.CryptoProviders.Pkc
 
                 List<IObjectAttribute> values = session.GetAttributeValue(dataHandle, findAttributesTempalte);
 
-                string ckaId = values[0].GetValueAsString();
-                string ckaLabel = values[1].GetValueAsString();
+                string ckaObjectId = values[0].GetValueAsString();
+                string ckaApplication = values[1].GetValueAsString();
 
-                if (this.pkcs11Options.Value.DataObjectFilter((ckaId, ckaLabel)))
+                if (this.pkcs11Options.Value.DataObjectFilter(new DataInfo(ckaObjectId, ckaApplication)))
                 {
-                    if (keyIds.Any(t => string.Equals(t, ckaId)))
+                    if (keyIds.Any(t => string.Equals(t, ckaObjectId)))
                     {
-                        this.logger.LogTrace("Found keyId: {keyId}", ckaId);
-                        return ckaId;
+                        this.logger.LogTrace("Found ckaObjectId: {ckaObjectId}", ckaObjectId);
+                        return ckaObjectId;
                     }
                 }
             }
 
-            this.logger.LogDebug("Not found supported keyId.");
+            this.logger.LogDebug("Not found supported ckaObjectId.");
             return null;
         }
 
@@ -247,7 +247,7 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Contrib.CryptoProviders.Pkc
                 throw new ArgumentNullException(nameof(keyId));
             }
 
-            if (!Regex.IsMatch(keyId, "^[A-Za-z0-9_]{5,32}$", RegexOptions.Singleline, TimeSpan.FromMilliseconds(200)))
+            if (!Regex.IsMatch(keyId, "^[A-Za-z0-9_-]{5,36}$", RegexOptions.Singleline | RegexOptions.Multiline, TimeSpan.FromMilliseconds(200)))
             {
                 this.logger.LogError("Key id is invalid. KeyId:{0}", keyId);
                 throw new EfEncryptionException("Invalid keyId.");
@@ -288,10 +288,17 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Contrib.CryptoProviders.Pkc
                 }
 
                 SecureString pin = await pinProvider.Invoke(this.serviceProvider, cancellationToken);
-                PkcsExtensions.SecureStringHelper.ExecuteWithSecureString(pin, Encoding.UTF8, rawPin =>
+                try
                 {
-                    this.masterSession.Login(CKU.CKU_USER, rawPin);
-                });
+                    PkcsExtensions.SecureStringHelper.ExecuteWithSecureString(pin, Encoding.UTF8, rawPin =>
+                    {
+                        this.masterSession.Login(CKU.CKU_USER, rawPin);
+                    });
+                }
+                finally
+                {
+                    pin?.Dispose();
+                }
 
                 this.logger.LogDebug("Sucessfull loged to PKCS11 device.");
             }

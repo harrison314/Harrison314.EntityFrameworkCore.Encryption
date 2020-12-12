@@ -49,10 +49,10 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Contrib.CryptoProviders.Pkc
             });
         }
 
-        public void GenerateDataObject(string label, string ckaId, int dataSize = 32)
+        public void GenerateDataObject(string application, string objectId, int dataSize = 32)
         {
-            if (label == null) throw new ArgumentNullException(nameof(label));
-            if (ckaId == null) throw new ArgumentNullException(nameof(ckaId));
+            if (application == null) throw new ArgumentNullException(nameof(application));
+            if (objectId == null) throw new ArgumentNullException(nameof(objectId));
 
             using ISession session = this.slot.OpenSession(SessionType.ReadWrite);
 
@@ -71,9 +71,8 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Contrib.CryptoProviders.Pkc
                     session.Factories.ObjectAttributeFactory.Create(CKA.CKA_CLASS, CKO.CKO_DATA),
                     session.Factories.ObjectAttributeFactory.Create(CKA.CKA_TOKEN, true),
                     session.Factories.ObjectAttributeFactory.Create(CKA.CKA_PRIVATE, true),
-                    session.Factories.ObjectAttributeFactory.Create(CKA.CKA_ID, ckaId),
-                    session.Factories.ObjectAttributeFactory.Create(CKA.CKA_LABEL, label),
-                    session.Factories.ObjectAttributeFactory.Create(CKA.CKA_APPLICATION, "Harrison314.Encryption"),
+                    session.Factories.ObjectAttributeFactory.Create(CKA.CKA_OBJECT_ID, objectId),
+                    session.Factories.ObjectAttributeFactory.Create(CKA.CKA_APPLICATION, application),
                     session.Factories.ObjectAttributeFactory.Create(CKA.CKA_VALUE, data)
                 };
 

@@ -20,7 +20,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleWebApiProject", "samp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Harrison314.EntityFrameworkCore.Encryption.Tests", "test\Harrison314.EntityFrameworkCore.Encryption.Tests\Harrison314.EntityFrameworkCore.Encryption.Tests.csproj", "{1597ACD3-CB40-438F-8B84-8449A93930EE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Harrison314.EntityFrameworkCore.Encryption.Contrib", "src\Harrison314.EntityFrameworkCore.Encryption.Contrib\Harrison314.EntityFrameworkCore.Encryption.Contrib.csproj", "{97F417DA-B277-42F4-973E-2299711D5F41}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Harrison314.EntityFrameworkCore.Encryption.Contrib", "src\Harrison314.EntityFrameworkCore.Encryption.Contrib\Harrison314.EntityFrameworkCore.Encryption.Contrib.csproj", "{97F417DA-B277-42F4-973E-2299711D5F41}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Harrison314.EntityFrameworkCore.Contrib.Tests", "test\Harrison314.EntityFrameworkCore.Contrib.Tests\Harrison314.EntityFrameworkCore.Contrib.Tests.csproj", "{EB712EF3-DC52-4209-9FC0-8CCA028EC8BE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -44,6 +46,10 @@ Global
 		{97F417DA-B277-42F4-973E-2299711D5F41}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{97F417DA-B277-42F4-973E-2299711D5F41}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{97F417DA-B277-42F4-973E-2299711D5F41}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB712EF3-DC52-4209-9FC0-8CCA028EC8BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB712EF3-DC52-4209-9FC0-8CCA028EC8BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB712EF3-DC52-4209-9FC0-8CCA028EC8BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB712EF3-DC52-4209-9FC0-8CCA028EC8BE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -53,6 +59,7 @@ Global
 		{074639A4-FF0F-482D-A2E0-2A48D12FB5EE} = {A968397F-6358-47B8-B0F1-793E669947F8}
 		{1597ACD3-CB40-438F-8B84-8449A93930EE} = {9075C7DF-76A9-4080-ACDE-E650B0BA2E12}
 		{97F417DA-B277-42F4-973E-2299711D5F41} = {BF96E918-3D85-4AB6-81C7-C70B85D08746}
+		{EB712EF3-DC52-4209-9FC0-8CCA028EC8BE} = {9075C7DF-76A9-4080-ACDE-E650B0BA2E12}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {824006CF-B329-40CA-B72C-CA9ED5C28DFA}

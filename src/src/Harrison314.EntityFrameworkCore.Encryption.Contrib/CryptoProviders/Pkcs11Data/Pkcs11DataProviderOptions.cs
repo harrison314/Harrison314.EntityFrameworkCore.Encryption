@@ -22,7 +22,7 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Contrib.CryptoProviders.Pkc
             set;
         }
 
-        public Predicate<(string, string)> DataObjectFilter
+        public Predicate<DataInfo> DataObjectFilter
         {
             get;
             set;
