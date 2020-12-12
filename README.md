@@ -15,7 +15,7 @@ _Harrison314.EntityFrameworkCore.Encryption_ is a [Microsoft Entity Framework Co
 * Encryption providers:
   * Password (only for testyng),
   * Ceratiricate (Recomandedt use with Windows store with non exportable private keys or SmartCard.),
-  * PKCS11 data objects (in samples), **Work in progress**
+  * PKCS11 data objects (in contrib library),
   * Azure Key Valut (in samples), **Work in progress**
   * Remote provider, **Work in progress**
   * Custom provider. **Work in progress**
