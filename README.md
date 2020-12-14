@@ -9,7 +9,7 @@ _Harrison314.EntityFrameworkCore.Encryption_ is a [Microsoft Entity Framework Co
 * Database agnostic (tested on Sqlite, MS SQL Server, PostgreSQL, Azure CosmosDB).
 * Key rotation.
 * Simple for use.
-* Deterministic or rnadomized encryption.
+* Deterministic or randomized encryption.
 * Build on standard cryptographic algorithms (AES, HMAC SHA, SP800-108, PBKDF-2,...).
 * Internal or external (out of process or on another server e.c. Azure Key Valut) encryption providers.
 * Encryption providers:
@@ -17,7 +17,7 @@ _Harrison314.EntityFrameworkCore.Encryption_ is a [Microsoft Entity Framework Co
   * Ceratiricate (Recomandedt use with Windows store with non exportable private keys or SmartCard.),
   * PKCS11 data objects (in contrib library),
   * Azure Key Valut (in samples), **Work in progress**
-  * Remote provider, **Work in progress**
+  * Remote provider (in contrib library),
   * Custom provider. **Work in progress**
 
 ## High-level application architecture
@@ -29,7 +29,6 @@ _Harrison314.EntityFrameworkCore.Encryption_ is a [Microsoft Entity Framework Co
 The following dataflow diagram shows the encryption and derivation of the key for a record property.
 
 ![Dataflow encryption randomized](doc/Dataflow_encryption_randomized.png)
-
 
 ## How to use
 
