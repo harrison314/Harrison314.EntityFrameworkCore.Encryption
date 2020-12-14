@@ -9,7 +9,7 @@ namespace Harrison314.EntityFrameworkCore.Encryption
 {
     public interface IDbContextEncryptedCryptoProvider
     {
-        public string ProviderName
+        string ProviderName
         {
             get;
         }

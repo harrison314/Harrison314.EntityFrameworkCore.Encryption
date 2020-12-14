@@ -18,7 +18,7 @@ _Harrison314.EntityFrameworkCore.Encryption_ is a [Microsoft Entity Framework Co
   * PKCS11 data objects (in contrib library),
   * Azure Key Valut (in samples), **Work in progress**
   * Remote provider (in contrib library),
-  * Custom provider. **Work in progress**
+  * Custom provider (custom implementation of `IDbContextEncryptedCryptoProvider`).
 
 ## High-level application architecture
 **Work in progress**
