@@ -13,10 +13,15 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Contrib
 {
     public static class EndpointsExtensions
     {
-        public static void MapRemoteEncryptedCryptoProvider<T>(this IEndpointRouteBuilder endpoints, string startUrl)
+        public static void MapRemoteEncryptedCryptoProvider<T>(this IEndpointRouteBuilder endpoints, string startUrl, Action<IEndpointConventionBuilder> customizeSetup = null)
             where T : IDbContextEncryptedCryptoProvider
         {
-            endpoints.MapPost(string.Concat(startUrl.TrimEnd('/'), "/EncryptMasterKey"), async context =>
+            if (customizeSetup == null)
+            {
+                customizeSetup = _ => { };
+            }
+
+            IEndpointConventionBuilder encryptMasterKeyBehoiar = endpoints.MapPost(string.Concat(startUrl.TrimEnd('/'), "/EncryptMasterKey"), async context =>
             {
                 if (!context.Request.HasJsonContentType())
                 {
@@ -24,26 +29,32 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Contrib
                     return;
                 }
 
-                EncryptMasterKeyRequest request = await context.Request.ReadFromJsonAsync<EncryptMasterKeyRequest>(context.RequestAborted);
-                //TODO: Validate
-                T provider = context.RequestServices.GetRequiredService<T>();
-
-                MasterKeyData data = await provider.EncryptMasterKey(request.MasterKey, context.RequestAborted);
-                EncryptMasterKeyResponse response = new EncryptMasterKeyResponse()
+                try
                 {
-                    Data = data.Data,
-                    KeyId = data.KeyId,
-                    Parameters = data.Parameters
-                };
+                    EncryptMasterKeyRequest request = await context.Request.ReadFromJsonAsync<EncryptMasterKeyRequest>(context.RequestAborted);
+                    //TODO: Validate
+                    T provider = context.RequestServices.GetRequiredService<T>();
 
-                await context.Response.WriteAsJsonAsync<EncryptMasterKeyResponse>(response, context.RequestAborted);
-                context.Response.StatusCode = 200;
+                    MasterKeyData data = await provider.EncryptMasterKey(request.MasterKey, context.RequestAborted);
+                    EncryptMasterKeyResponse response = new EncryptMasterKeyResponse()
+                    {
+                        Data = data.Data,
+                        KeyId = data.KeyId,
+                        Parameters = data.Parameters
+                    };
 
-                //TODO: Error handling
+                    context.Response.StatusCode = 200;
+                    await context.Response.WriteAsJsonAsync<EncryptMasterKeyResponse>(response, context.RequestAborted);
+                }
+                catch (Exception ex)
+                {
+                    HandleError(ex, context);
+                }
             });
-            //TODO: additional actions
 
-            endpoints.MapPost(string.Concat(startUrl.TrimEnd('/'), "/FilterAcceptKeyIds"), async context =>
+            customizeSetup.Invoke(encryptMasterKeyBehoiar);
+
+            IEndpointConventionBuilder filterAcceptKeyIdsBehoiar = endpoints.MapPost(string.Concat(startUrl.TrimEnd('/'), "/FilterAcceptKeyIds"), async context =>
             {
                 if (!context.Request.HasJsonContentType())
                 {
@@ -51,54 +62,75 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Contrib
                     return;
                 }
 
-                FilterAcceptKeyIdsRequest request = await context.Request.ReadFromJsonAsync<FilterAcceptKeyIdsRequest>(context.RequestAborted);
-                //TODO: Validate
-                T provider = context.RequestServices.GetRequiredService<T>();
-
-                string selectedKeyId = await provider.FilterAcceptKeyIds(request.KeyIds, context.RequestAborted);
-                FilterAcceptKeyIdsResponse response = new FilterAcceptKeyIdsResponse()
+                try
                 {
-                    SelectedKeyId = selectedKeyId
-                };
+                    FilterAcceptKeyIdsRequest request = await context.Request.ReadFromJsonAsync<FilterAcceptKeyIdsRequest>(context.RequestAborted);
+                    //TODO: Validate
+                    T provider = context.RequestServices.GetRequiredService<T>();
 
-                await context.Response.WriteAsJsonAsync<FilterAcceptKeyIdsResponse>(response, context.RequestAborted);
-                context.Response.StatusCode = 200;
+                    string selectedKeyId = await provider.FilterAcceptKeyIds(request.KeyIds, context.RequestAborted);
+                    FilterAcceptKeyIdsResponse response = new FilterAcceptKeyIdsResponse()
+                    {
+                        SelectedKeyId = selectedKeyId
+                    };
 
-                //TODO: Error handling
-            });
-            //TODO: additional actions
-
-            endpoints.MapPost(string.Concat(startUrl.TrimEnd('/'), "/DecryptMasterKey"), async context =>
-            {
-                if (!context.Request.HasJsonContentType())
-                {
-                    context.Response.StatusCode = StatusCodes.Status415UnsupportedMediaType;
-                    return;
+                    context.Response.StatusCode = 200;
+                    await context.Response.WriteAsJsonAsync<FilterAcceptKeyIdsResponse>(response, context.RequestAborted);
                 }
-
-                DecryptMasterKeyRequest request = await context.Request.ReadFromJsonAsync<DecryptMasterKeyRequest>(context.RequestAborted);
-                //TODO: Validate
-                T provider = context.RequestServices.GetRequiredService<T>();
-
-                MasterKeyData data = new MasterKeyData()
+                catch (Exception ex)
                 {
-                    Data = request.Data,
-                    KeyId = request.KeyId,
-                    Parameters = request.Parameters
-                };
-
-                byte[] masterKey = await provider.DecryptMasterKey(data, context.RequestAborted);
-                DecryptMasterKeyResponse response = new DecryptMasterKeyResponse()
-                {
-                    MasterKey = masterKey
-                };
-
-                await context.Response.WriteAsJsonAsync<DecryptMasterKeyResponse>(response, context.RequestAborted);
-                context.Response.StatusCode = 200;
-
-                //TODO: Error handling
+                    HandleError(ex, context);
+                }
             });
-            //TODO: additional actions
+
+            customizeSetup.Invoke(filterAcceptKeyIdsBehoiar);
+
+            IEndpointConventionBuilder decryptMasterKeyBehoiar = endpoints.MapPost(string.Concat(startUrl.TrimEnd('/'), "/DecryptMasterKey"), async context =>
+           {
+               if (!context.Request.HasJsonContentType())
+               {
+                   context.Response.StatusCode = StatusCodes.Status415UnsupportedMediaType;
+                   return;
+               }
+
+               try
+               {
+                   DecryptMasterKeyRequest request = await context.Request.ReadFromJsonAsync<DecryptMasterKeyRequest>(context.RequestAborted);
+                   //TODO: Validate
+                   T provider = context.RequestServices.GetRequiredService<T>();
+
+                   MasterKeyData data = new MasterKeyData()
+                   {
+                       Data = request.Data,
+                       KeyId = request.KeyId,
+                       Parameters = request.Parameters
+                   };
+
+                   byte[] masterKey = await provider.DecryptMasterKey(data, context.RequestAborted);
+                   DecryptMasterKeyResponse response = new DecryptMasterKeyResponse()
+                   {
+                       MasterKey = masterKey
+                   };
+
+                   context.Response.StatusCode = 200;
+                   await context.Response.WriteAsJsonAsync<DecryptMasterKeyResponse>(response, context.RequestAborted);
+
+               }
+               catch (Exception ex)
+               {
+                   HandleError(ex, context);
+               }
+           });
+
+            customizeSetup.Invoke(decryptMasterKeyBehoiar);
+        }
+
+        private static void HandleError(Exception exception, HttpContext context)
+        {
+            if (exception is not EfEncryptionException)
+            {
+                throw new EfEncryptionException("Internal error in remote provider.", exception);
+            }
         }
     }
 }
