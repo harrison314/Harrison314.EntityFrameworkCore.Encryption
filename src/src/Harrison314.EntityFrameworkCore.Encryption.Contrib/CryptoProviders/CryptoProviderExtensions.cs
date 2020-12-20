@@ -1,4 +1,5 @@
-﻿using Harrison314.EntityFrameworkCore.Encryption.Contrib.CryptoProviders.Pkcs11Data;
+﻿using Harrison314.EntityFrameworkCore.Encryption;
+using Harrison314.EntityFrameworkCore.Encryption.Contrib.CryptoProviders.Pkcs11Data;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Harrison314.EntityFrameworkCore.Encryption.Contrib.CryptoProviders
+namespace Microsoft.Extensions.DependencyInjection
 {
     public static class CryptoProviderExtensions
     {
