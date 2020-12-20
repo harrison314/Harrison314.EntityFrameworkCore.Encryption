@@ -28,6 +28,7 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Internal
             this.crypetoProvider = crypetoProvider ?? throw new ArgumentNullException(nameof(crypetoProvider));
             this.serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
             this.providerOptions = providerOptions ?? throw new ArgumentNullException(nameof(providerOptions));
+
             this.cacheItem = new EncryptedContextCacheItem();
         }
 
@@ -118,7 +119,7 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Internal
             try
             {
                 DbSet<EcCdeMasterKey> keySet = context.Set<EcCdeMasterKey>();
-                if (!await keySet.AnyAsync())
+                if (!await keySet.AnyAsync(cancellationToken))
                 {
                     byte[] masterKeyBytes = new byte[32];
                     try
@@ -155,10 +156,10 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Internal
             try
             {
                 DbSet<EcCdeMasterKey> keySet = context.Set<EcCdeMasterKey>();
-                List<string> keyIds = await keySet.Where(t => t.ProviderName == this.crypetoProvider.ProviderName).Select(t => t.KeyId).ToListAsync();
+                List<string> keyIds = await keySet.Where(t => t.ProviderName == this.crypetoProvider.ProviderName).Select(t => t.KeyId).ToListAsync(cancellationToken);
                 if (keyIds.Count == 0)
                 {
-                    throw new Exception(".......");
+                    throw new InvalidOperationException("Database master key not found in database.");
                 }
 
                 string acceptKeyId = await this.crypetoProvider.FilterAcceptKeyIds(keyIds, cancellationToken);
@@ -190,6 +191,7 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Internal
                 IServiceScopeFactory serviceScopeFactory = this.serviceProvider.GetRequiredService<IServiceScopeFactory>();
                 IServiceScope scope = serviceScopeFactory.CreateScope();
                 TDbContext context = scope.ServiceProvider.GetRequiredService<TDbContext>();
+
                 return (context, scope);
             }
         }

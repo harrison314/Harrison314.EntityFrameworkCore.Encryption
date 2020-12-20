@@ -11,7 +11,7 @@ namespace Harrison314.EntityFrameworkCore.Encryption.CryptoProviders
     public sealed class PasswordDbContextEncryptedCryptoProvider : IDbContextEncryptedCryptoProvider, IDisposable
     {
         private readonly byte[] passwordData;
-        const string PasswordName = "MasterPassword";
+        private const string PasswordName = "MasterPassword";
 
         public string ProviderName
         {

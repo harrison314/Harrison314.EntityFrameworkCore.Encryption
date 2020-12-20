@@ -15,6 +15,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 ServiceLifetime.Singleton);
 
             builder.ServiceCollection.Add(descriptor);
+
             return builder;
         }
 

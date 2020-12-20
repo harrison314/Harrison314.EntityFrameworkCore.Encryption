@@ -10,8 +10,7 @@ using PkcsExtensions.X509Certificates;
 
 namespace Harrison314.EntityFrameworkCore.Encryption.CryptoProviders
 {
-    // TODO: testy a lahsie api aj s Storom, mozno heslom
-    public class CertificateDbContextEncryptedCryptoProvider : IDbContextEncryptedCryptoProvider, IDisposable
+    public sealed class CertificateDbContextEncryptedCryptoProvider : IDbContextEncryptedCryptoProvider, IDisposable
     {
         private readonly X509Certificate2 certificate;
 
