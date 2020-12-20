@@ -63,6 +63,24 @@ Task("Build-Harrison314EntityFrameworkCoreEncryption")
         DotNetCorePack("../src/src/Harrison314.EntityFrameworkCore.Encryption/Harrison314.EntityFrameworkCore.Encryption.csproj", settings);
     });
 
+Task("Build-Harrison314EntityFrameworkCoreEncryptionContrib")
+    .IsDependentOn("Clean")
+    .Does(() =>
+    {
+        DotNetCorePackSettings settings = new  DotNetCorePackSettings()
+        {
+            Configuration = configuration,
+            OutputDirectory = artefacts,
+            IncludeSource = false,
+            IncludeSymbols = false,
+            NoBuild = false,
+            VersionSuffix = versionSuffix
+        };
+
+        UpdateSettings(settings);
+        DotNetCorePack("../src/src/Harrison314.EntityFrameworkCore.Encryption.Contrib/Harrison314.EntityFrameworkCore.Encryption.Contrib.csproj", settings);
+    });
+
 // ****************************************************************************
 
 Task("Test-Harrison314EntityFrameworkCoreEncryption")
@@ -77,14 +95,27 @@ Task("Test-Harrison314EntityFrameworkCoreEncryption")
         DotNetCoreTest("../src/test/Harrison314.EntityFrameworkCore.Encryption.Tests/Harrison314.EntityFrameworkCore.Encryption.Tests.csproj", settings);
     });
 
+Task("Test-Harrison314EntityFrameworkCoreEncryptionContrib")
+    .IsDependentOn("Clean")
+    .Does(() =>
+    {
+        DotNetCoreTestSettings settings = new  DotNetCoreTestSettings()
+        {
+            Configuration = configuration
+        };
+
+        DotNetCoreTest("../src/test/Harrison314.EntityFrameworkCore.Contrib.Tests/Harrison314.EntityFrameworkCore.Contrib.Tests.csproj", settings);
+    });
 
 // ****************************************************************************
 
 Task("Test")
-    .IsDependentOn("Test-Harrison314EntityFrameworkCoreEncryption");
+    .IsDependentOn("Test-Harrison314EntityFrameworkCoreEncryption")
+    .IsDependentOn("Test-Harrison314EntityFrameworkCoreEncryptionContrib");
 
 Task("Build")
-    .IsDependentOn("Build-Harrison314EntityFrameworkCoreEncryption");
+    .IsDependentOn("Build-Harrison314EntityFrameworkCoreEncryption")
+    .IsDependentOn("Build-Harrison314EntityFrameworkCoreEncryptionContrib");
 
 Task("Default")
     .IsDependentOn("Test")
