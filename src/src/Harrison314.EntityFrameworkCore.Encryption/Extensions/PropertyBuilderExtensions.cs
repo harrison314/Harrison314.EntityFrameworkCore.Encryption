@@ -1,4 +1,6 @@
 ﻿using Harrison314.EntityFrameworkCore.Encryption.Internal;
+using Harrison314.EntityFrameworkCore.Encryption.Internal.GZip;
+using Harrison314.EntityFrameworkCore.Encryption.Internal.Lzw;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 using System.Collections.Generic;
@@ -12,28 +14,35 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Extensions
     {
         #region String
 
-        public static PropertyBuilder<string> HasEncrypted(this PropertyBuilder<string> property, string purpose, EncrypetionType encrypetionType, EncryptionMode encryptionMode)
+        public static PropertyBuilder<string> HasEncrypted(this PropertyBuilder<string> property, string purpose, EncrypetionType encrypetionType, EncryptionMode encryptionMode, CompressionMode compressionMode)
         {
             if (purpose == null) throw new ArgumentNullException(nameof(purpose));
             if (string.IsNullOrEmpty(purpose)) throw new ArgumentException($"Argument {nameof(purpose)} is empty string.");
 
-            return property.HasConversion<byte[]>(t => EncodeAdnEncryptString(t, purpose, encrypetionType, encryptionMode),
+            return property.HasConversion<byte[]>(t => EncodeAdnEncryptString(t, purpose, encrypetionType, encryptionMode, compressionMode),
 #pragma warning disable CS8603 // Possible null reference return.
-                  t => DecryptAndDecodeString(t, purpose, encrypetionType, encryptionMode));
+                  t => DecryptAndDecodeString(t, purpose, encrypetionType, encryptionMode, compressionMode));
 #pragma warning restore CS8603 // Possible null reference return.
         }
 
-        private static byte[] EncodeAdnEncryptString(string value, string purpose, EncrypetionType encrypetionType, EncryptionMode encryptionMode)
+        private static byte[] EncodeAdnEncryptString(string value, string purpose, EncrypetionType encrypetionType, EncryptionMode encryptionMode, CompressionMode compressionMode)
         {
             byte[] data = Encoding.UTF8.GetBytes(value);
+            byte[] compressedData = compressionMode switch
+            {
+                CompressionMode.None => data,
+                CompressionMode.Lzw => LzwEncoder.LzwCompress(data),
+                CompressionMode.GZip => GzipEncoder.Compress(data),
+                _ => throw new InvalidProgramException($"Enum value {compressionMode} not supported.")
+            };
 
             IPropertyEncryptor encryptor = EncryptionScopeContext.Current.ForProperty(purpose, encrypetionType, encryptionMode);
 #pragma warning disable CS8603 // Possible null reference return.
-            return encryptor.Protect(data);
+            return encryptor.Protect(compressedData);
 #pragma warning restore CS8603 // Possible null reference return.
         }
 
-        private static string? DecryptAndDecodeString(byte[] value, string purpose, EncrypetionType encrypetionType, EncryptionMode encryptionMode)
+        private static string? DecryptAndDecodeString(byte[] value, string purpose, EncrypetionType encrypetionType, EncryptionMode encryptionMode, CompressionMode compressionMode)
         {
             IPropertyEncryptor encryptor = EncryptionScopeContext.Current.ForProperty(purpose, encrypetionType, encryptionMode);
             byte[]? data = encryptor.Unprotect(value);
@@ -42,7 +51,15 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Extensions
                 return null;
             }
 
-            return Encoding.UTF8.GetString(data);
+            byte[] decompressedData = compressionMode switch
+            {
+                CompressionMode.None => data,
+                CompressionMode.Lzw => LzwEncoder.LzwDecompress(data),
+                CompressionMode.GZip => GzipEncoder.Decompress(data),
+                _ => throw new InvalidProgramException($"Enum value {compressionMode} not supported.")
+            };
+
+            return Encoding.UTF8.GetString(decompressedData);
         }
 
         #endregion
@@ -159,27 +176,47 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Extensions
 
         #region byte[]
 
-        public static PropertyBuilder<byte[]> HasEncrypted(this PropertyBuilder<byte[]> property, string purpose, EncrypetionType encrypetionType, EncryptionMode encryptionMode)
+        public static PropertyBuilder<byte[]> HasEncrypted(this PropertyBuilder<byte[]> property, string purpose, EncrypetionType encrypetionType, EncryptionMode encryptionMode, CompressionMode compressionMode)
         {
             if (purpose == null) throw new ArgumentNullException(nameof(purpose));
             if (string.IsNullOrEmpty(purpose)) throw new ArgumentException($"Argument {nameof(purpose)} is empty string.");
 
 #pragma warning disable CS8603 // Possible null reference return.
-            return property.HasConversion<byte[]>(t => EncodeAdnEncryptByteArray(t, purpose, encrypetionType, encryptionMode),
-                  t => DecryptAndDecodeByteArray(t, purpose, encrypetionType, encryptionMode));
+            return property.HasConversion<byte[]>(t => EncodeAdnEncryptByteArray(t, purpose, encrypetionType, encryptionMode, compressionMode),
+                  t => DecryptAndDecodeByteArray(t, purpose, encrypetionType, encryptionMode, compressionMode));
 #pragma warning restore CS8603 // Possible null reference return.
         }
 
-        private static byte[]? EncodeAdnEncryptByteArray(byte[] value, string purpose, EncrypetionType encrypetionType, EncryptionMode encryptionMode)
+        private static byte[]? EncodeAdnEncryptByteArray(byte[] value, string purpose, EncrypetionType encrypetionType, EncryptionMode encryptionMode, CompressionMode compressionMode)
         {
+            byte[] compressedData = compressionMode switch
+            {
+                CompressionMode.None => value,
+                CompressionMode.Lzw => LzwEncoder.LzwCompress(value),
+                CompressionMode.GZip => GzipEncoder.Compress(value),
+                _ => throw new InvalidProgramException($"Enum value {compressionMode} not supported.")
+            };
+
             IPropertyEncryptor encryptor = EncryptionScopeContext.Current.ForProperty(purpose, encrypetionType, encryptionMode);
-            return encryptor.Protect(value);
+            return encryptor.Protect(compressedData);
         }
 
-        private static byte[]? DecryptAndDecodeByteArray(byte[] value, string purpose, EncrypetionType encrypetionType, EncryptionMode encryptionMode)
+        private static byte[]? DecryptAndDecodeByteArray(byte[] value, string purpose, EncrypetionType encrypetionType, EncryptionMode encryptionMode, CompressionMode compressionMode)
         {
             IPropertyEncryptor encryptor = EncryptionScopeContext.Current.ForProperty(purpose, encrypetionType, encryptionMode);
-            return encryptor.Unprotect(value);
+            byte[]? data = encryptor.Unprotect(value);
+            if (data == null)
+            {
+                return null;
+            }
+
+            return compressionMode switch
+            {
+                CompressionMode.None => data,
+                CompressionMode.Lzw => LzwEncoder.LzwDecompress(data),
+                CompressionMode.GZip => GzipEncoder.Decompress(data),
+                _ => throw new InvalidProgramException($"Enum value {compressionMode} not supported.")
+            };
         }
 
         #endregion

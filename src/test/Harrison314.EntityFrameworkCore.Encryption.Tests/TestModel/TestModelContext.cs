@@ -84,9 +84,15 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Tests.TestModel
             {
                 p.HasKey(t => t.Id);
                 p.Property(t => t.Name)
-                  .HasEncrypted("Ashka458_asajcsh-47mK", EncrypetionType.AEAD_AES_256_CBC_HMAC_SHA_256, EncryptionMode.Randomized);
+                  .HasEncrypted("Ashka458_asajcsh-47mK",
+                      EncrypetionType.AEAD_AES_256_CBC_HMAC_SHA_256,
+                      EncryptionMode.Randomized,
+                      CompressionMode.None);
                 p.Property(t => t.SSI)
-                  .HasEncrypted("kNdDd2_45856320", EncrypetionType.AEAD_AES_256_CBC_HMAC_SHA_256, EncryptionMode.Deterministic);
+                  .HasEncrypted("kNdDd2_45856320",
+                      EncrypetionType.AEAD_AES_256_CBC_HMAC_SHA_256, 
+                      EncryptionMode.Deterministic,
+                      CompressionMode.None);
             });
 
             modelBuilder.Entity<IntEntity>(p =>
@@ -120,9 +126,15 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Tests.TestModel
             {
                 p.HasKey(t => t.Id);
                 p.Property(t => t.Value)
-                .HasEncrypted("ByteArrayEntity.Value.2020", EncrypetionType.AEAD_AES_256_CBC_HMAC_SHA_256, EncryptionMode.Deterministic);
+                .HasEncrypted("ByteArrayEntity.Value.2020",
+                    EncrypetionType.AEAD_AES_256_CBC_HMAC_SHA_256, 
+                    EncryptionMode.Deterministic,
+                    CompressionMode.None);
                 p.Property(t => t.Value2)
-               .HasEncrypted("ByteArrayEntity.Value2.2020", EncrypetionType.AEAD_AES_256_CBC_HMAC_SHA_256, EncryptionMode.Randomized);
+               .HasEncrypted("ByteArrayEntity.Value2.2020",
+                    EncrypetionType.AEAD_AES_256_CBC_HMAC_SHA_256, 
+                    EncryptionMode.Randomized,
+                    CompressionMode.None);
             });
         }
 
