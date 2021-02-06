@@ -1,4 +1,7 @@
 # Harrison314.EntityFrameworkCore.Encryption
+[![NuGet Status](http://img.shields.io/nuget/v/Harrison314.EntityFrameworkCore.Encryption.svg?style=flat)](https://www.nuget.org/packages/Harrison314.EntityFrameworkCore.Encryption/)
+
+
 Add transparent data encryption to Entity Framework Core inspired [Always Encrypted from MS SQL Server](https://docs.microsoft.com/en-us/sql/relational-databases/security/encryption/always-encrypted-database-engine?view=sql-server-ver15).
 
 _Harrison314.EntityFrameworkCore.Encryption_ is a [Microsoft Entity Framework Core](https://github.com/dotnet/efcore) extension to add support of encrypted fields using built-in or custom encryption providers.
