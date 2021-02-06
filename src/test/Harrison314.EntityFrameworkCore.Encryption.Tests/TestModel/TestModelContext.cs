@@ -65,6 +65,30 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Tests.TestModel
             set;
         }
 
+        public DbSet<ByteArrayLzwEntity> ByteArrayLzwEntitys
+        {
+            get;
+            set;
+        }
+
+        public DbSet<ByteArrayGzipEntity> ByteArrayGzipEntitys
+        {
+            get;
+            set;
+        }
+
+        public DbSet<StringLzwEntity> StringLzwEntitys
+        {
+            get;
+            set;
+        }
+
+        public DbSet<StringGZipEntity> StringGZipEntitys
+        {
+            get;
+            set;
+        }
+
         public TestModelContext([NotNull] DbContextOptions options, IDisposable disposable)
             : base(options)
         {
@@ -135,6 +159,66 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Tests.TestModel
                     EncrypetionType.AEAD_AES_256_CBC_HMAC_SHA_256, 
                     EncryptionMode.Randomized,
                     CompressionMode.None);
+            });
+
+            modelBuilder.Entity<ByteArrayLzwEntity>(p =>
+            {
+                p.HasKey(t => t.Id);
+                p.Property(t => t.Value)
+                .HasEncrypted("ByteArrayLzwEntity.Value.2020",
+                    EncrypetionType.AEAD_AES_256_CBC_HMAC_SHA_256,
+                    EncryptionMode.Deterministic,
+                    CompressionMode.Lzw);
+                p.Property(t => t.Value2)
+               .HasEncrypted("ByteArrayLzwEntity.Value2.2020",
+                    EncrypetionType.AEAD_AES_256_CBC_HMAC_SHA_256,
+                    EncryptionMode.Randomized,
+                    CompressionMode.Lzw);
+            });
+
+            modelBuilder.Entity<ByteArrayGzipEntity>(p =>
+            {
+                p.HasKey(t => t.Id);
+                p.Property(t => t.Value)
+                .HasEncrypted("ByteArrayGzipEntity.Value.2020",
+                    EncrypetionType.AEAD_AES_256_CBC_HMAC_SHA_256,
+                    EncryptionMode.Deterministic,
+                    CompressionMode.GZip);
+                p.Property(t => t.Value2)
+               .HasEncrypted("ByteArrayGzipEntity.Value2.2020",
+                    EncrypetionType.AEAD_AES_256_CBC_HMAC_SHA_256,
+                    EncryptionMode.Randomized,
+                    CompressionMode.GZip);
+            });
+
+            modelBuilder.Entity<StringLzwEntity>(p =>
+            {
+                p.HasKey(t => t.Id);
+                p.Property(t => t.Value)
+                .HasEncrypted("StringLzwEntity.Value.2020",
+                    EncrypetionType.AEAD_AES_256_CBC_HMAC_SHA_256,
+                    EncryptionMode.Deterministic,
+                    CompressionMode.GZip);
+                p.Property(t => t.Value2)
+               .HasEncrypted("StringLzwEntity.Value2.2020",
+                    EncrypetionType.AEAD_AES_256_CBC_HMAC_SHA_256,
+                    EncryptionMode.Randomized,
+                    CompressionMode.GZip);
+            });
+
+            modelBuilder.Entity<StringGZipEntity>(p =>
+            {
+                p.HasKey(t => t.Id);
+                p.Property(t => t.Value)
+                .HasEncrypted("StringGZipEntity.Value.2020",
+                    EncrypetionType.AEAD_AES_256_CBC_HMAC_SHA_256,
+                    EncryptionMode.Deterministic,
+                    CompressionMode.GZip);
+                p.Property(t => t.Value2)
+               .HasEncrypted("StringGZipEntity.Value2.2020",
+                    EncrypetionType.AEAD_AES_256_CBC_HMAC_SHA_256,
+                    EncryptionMode.Randomized,
+                    CompressionMode.GZip);
             });
         }
 
@@ -296,6 +380,110 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Tests.TestModel
         }
 
         public ByteArrayEntity()
+        {
+
+        }
+    }
+
+    public class ByteArrayLzwEntity
+    {
+        public int Id
+        {
+            get;
+            set;
+        }
+
+        public byte[] Value
+        {
+            get;
+            set;
+        }
+
+        public byte[] Value2
+        {
+            get;
+            set;
+        }
+
+        public ByteArrayLzwEntity()
+        {
+
+        }
+    }
+
+    public class ByteArrayGzipEntity
+    {
+        public int Id
+        {
+            get;
+            set;
+        }
+
+        public byte[] Value
+        {
+            get;
+            set;
+        }
+
+        public byte[] Value2
+        {
+            get;
+            set;
+        }
+
+        public ByteArrayGzipEntity()
+        {
+
+        }
+    }
+
+    public class StringLzwEntity
+    {
+        public int Id
+        {
+            get;
+            set;
+        }
+
+        public string Value
+        {
+            get;
+            set;
+        }
+
+        public string Value2
+        {
+            get;
+            set;
+        }
+
+        public StringLzwEntity()
+        {
+
+        }
+    }
+
+    public class StringGZipEntity
+    {
+        public int Id
+        {
+            get;
+            set;
+        }
+
+        public string Value
+        {
+            get;
+            set;
+        }
+
+        public string Value2
+        {
+            get;
+            set;
+        }
+
+        public StringGZipEntity()
         {
 
         }

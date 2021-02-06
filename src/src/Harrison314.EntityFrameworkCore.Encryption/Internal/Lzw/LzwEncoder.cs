@@ -18,7 +18,7 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Internal.Lzw
 
             if (iBuf.Length == 0)
             {
-                throw new ArgumentException("Input buffer is empty.");
+                return Array.Empty<byte>();
             }
 
             Dictionary<List<byte>, int> dictionary = new Dictionary<List<byte>, int>(new ByteListComparer());
@@ -71,7 +71,7 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Internal.Lzw
 
             if (Bufi.Length == 0)
             {
-                throw new ArgumentException("Input buffer is empty.");
+                return Array.Empty<byte>();
             }
 
             int[] iBufi = ResizeToPadding(Bufi);

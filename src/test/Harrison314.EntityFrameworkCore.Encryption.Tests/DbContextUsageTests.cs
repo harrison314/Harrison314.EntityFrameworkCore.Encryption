@@ -231,6 +231,106 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Tests
                 });
         }
 
+        [DataTestMethod]
+        [DataRow(0)]
+        [DataRow(1)]
+        [DataRow(12)]
+        [DataRow(34)]
+        [DataRow(2481)]
+        [DataRow(1245896)]
+        public async Task TestEncryptByteArrayWithLzw(int lenght)
+        {
+            Random rand = new Random(14);
+            byte[] constData1 = new byte[lenght];
+            byte[] constData2 = new byte[lenght];
+
+            rand.NextBytes(constData1);
+            rand.NextBytes(constData2);
+
+            await this.TestValues<ByteArrayLzwEntity>(() => new ByteArrayLzwEntity() { Value = constData1, Value2 = constData2 },
+                e =>
+                {
+                    Assert.AreEqual(null, e.Value);
+                    Assert.AreEqual(null, e.Value2);
+                },
+                e =>
+                {
+                    CollectionAssert.AreEquivalent(constData1, e.Value);
+                    CollectionAssert.AreEquivalent(constData2, e.Value2);
+                });
+        }
+
+        [DataTestMethod]
+        [DataRow(0)]
+        [DataRow(1)]
+        [DataRow(12)]
+        [DataRow(34)]
+        [DataRow(2481)]
+        [DataRow(1245896)]
+        public async Task TestEncryptByteArrayWithGZip(int lenght)
+        {
+            Random rand = new Random(14);
+            byte[] constData1 = new byte[lenght];
+            byte[] constData2 = new byte[lenght];
+
+            rand.NextBytes(constData1);
+            rand.NextBytes(constData2);
+
+            await this.TestValues<ByteArrayGzipEntity>(() => new ByteArrayGzipEntity() { Value = constData1, Value2 = constData2 },
+                e =>
+                {
+                    Assert.AreEqual(null, e.Value);
+                    Assert.AreEqual(null, e.Value2);
+                },
+                e =>
+                {
+                    CollectionAssert.AreEquivalent(constData1, e.Value);
+                    CollectionAssert.AreEquivalent(constData2, e.Value2);
+                });
+        }
+
+        [DataTestMethod]
+        [DataRow("")]
+        [DataRow("a")]
+        [DataRow("š")]
+        [DataRow("Sed eleifend lorem neque, sit amet pharetra leo pellentesque cursus. Sed semper varius dui, ac fringilla turpis posuere nec.")]
+        [DataRow("Nunc nunc massa, euismod id diam in, iaculis faucibus diam. Etiam id leo sed est fringilla tempor. Aliquam ut consectetur lacus. Sed dictum felis eu erat volutpat gravida. Suspendisse eu vestibulum ligula. Cras accumsan elit nisi, vel pulvinar lorem venenatis ac. In facilisis eget nibh nec iaculis. Nulla condimentum libero sit amet tellus iaculis, eu rhoncus ex dictum. Vivamus id convallis orci, eget porta mauris. Donec tristique dui at massa rhoncus ornare. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nullam ut eros ut eros fringilla lobortis. ")]
+        public async Task TestEncryptStringWithLzw(string value)
+        {
+            await this.TestValues<StringLzwEntity>(() => new StringLzwEntity() { Value = value, Value2 = value },
+                e =>
+                {
+                    Assert.AreEqual(default(string), e.Value);
+                    Assert.AreEqual(default(string), e.Value2);
+                },
+                e =>
+                {
+                    Assert.AreEqual(value, e.Value);
+                    Assert.AreEqual(value, e.Value2);
+                });
+        }
+
+        [DataTestMethod]
+        [DataRow("")]
+        [DataRow("a")]
+        [DataRow("š")]
+        [DataRow("Sed eleifend lorem neque, sit amet pharetra leo pellentesque cursus. Sed semper varius dui, ac fringilla turpis posuere nec.")]
+        [DataRow("Nunc nunc massa, euismod id diam in, iaculis faucibus diam. Etiam id leo sed est fringilla tempor. Aliquam ut consectetur lacus. Sed dictum felis eu erat volutpat gravida. Suspendisse eu vestibulum ligula. Cras accumsan elit nisi, vel pulvinar lorem venenatis ac. In facilisis eget nibh nec iaculis. Nulla condimentum libero sit amet tellus iaculis, eu rhoncus ex dictum. Vivamus id convallis orci, eget porta mauris. Donec tristique dui at massa rhoncus ornare. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nullam ut eros ut eros fringilla lobortis. ")]
+        public async Task TestEncryptStringWithGzip(string value)
+        {
+            await this.TestValues<StringLzwEntity>(() => new StringLzwEntity() { Value = value, Value2 = value },
+                e =>
+                {
+                    Assert.AreEqual(default(string), e.Value);
+                    Assert.AreEqual(default(string), e.Value2);
+                },
+                e =>
+                {
+                    Assert.AreEqual(value, e.Value);
+                    Assert.AreEqual(value, e.Value2);
+                });
+        }
+
         private async Task TestValues<TEntity>(Func<TEntity> create, Action<TEntity> checkDefault, Action<TEntity> checkDecrypted)
             where TEntity : class
         {

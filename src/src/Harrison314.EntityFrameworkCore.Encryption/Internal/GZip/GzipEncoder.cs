@@ -28,7 +28,7 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Internal.GZip
 
             using MemoryStream inputMemoryStream = new MemoryStream(data);
             using MemoryStream outputMemoryStream = new MemoryStream(data.Length);
-            using GZipStream decompressStream = new GZipStream(inputMemoryStream, CompressionLevel.Optimal);
+            using GZipStream decompressStream = new GZipStream(inputMemoryStream, System.IO.Compression.CompressionMode.Decompress);
             decompressStream.CopyTo(outputMemoryStream);
 
             return outputMemoryStream.ToArray();
