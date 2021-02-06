@@ -147,13 +147,22 @@ public class SampleDbContext : DbContext
         {
             p.HasKey(t => t.Id);
             p.Property(t => t.FirstName)
-              .HasEncrypted("Patient.FirstName", EncrypetionType.AEAD_AES_256_CBC_HMAC_SHA_256, EncryptionMode.Randomized)
+              .HasEncrypted("Patient.FirstName", 
+                  EncrypetionType.AEAD_AES_256_CBC_HMAC_SHA_256,
+                  EncryptionMode.Randomized,
+                  CompressionMode.None)
               .IsRequired().HasMaxLength(150);
             p.Property(t => t.LastName)
-              .HasEncrypted("Patient.LastName", EncrypetionType.AEAD_AES_256_CBC_HMAC_SHA_256, EncryptionMode.Randomized)
+              .HasEncrypted("Patient.LastName",
+                  EncrypetionType.AEAD_AES_256_CBC_HMAC_SHA_256,
+                  EncryptionMode.Randomized,
+                  CompressionMode.None)
               .IsRequired().HasMaxLength(150);
             p.Property(t => t.SocialSecurityNumber)
-              .HasEncrypted("Patient.LastName", EncrypetionType.AEAD_AES_256_CBC_HMAC_SHA_256, EncryptionMode.Deterministic)
+              .HasEncrypted("Patient.LastName",
+                  EncrypetionType.AEAD_AES_256_CBC_HMAC_SHA_256,
+                  EncryptionMode.Deterministic,
+                  CompressionMode.None)
               .IsRequired().HasMaxLength(150);
             p.Property(t => t.Notes).HasDefaultValue(string.Empty);
             p.HasMany(t => t.Visists).WithOne(t => t.Patient).HasForeignKey(t => t.PatientId);
