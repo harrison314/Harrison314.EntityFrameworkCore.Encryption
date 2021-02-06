@@ -3,14 +3,17 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <Authors>harrison314</Authors>
-    <Copyright>harrison314 (c) 2020</Copyright>
+    <Copyright>harrison314 (c) 2021</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/harrison314/Harrison314.EntityFrameworkCore.Encryption/</PackageProjectUrl>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/harrison314/Harrison314.EntityFrameworkCore.Encryption/</RepositoryUrl>
-    <Description>Library adds transparent data encryption to Entity Framework Core 5.0 inspired TDE from MS SQL Server.</Description>
+    <Description>This library adds transparent data encryption to Entity Framework Core 5.0 inspired  Always Encrypted from MS SQL Server.
+Work with any database and using standard cryptographic algorithms (AES, HMAC SHA, SP800-108, PBKDF-2,...).</Description>
     <PackageIcon>NugetIcon.png</PackageIcon>
     <Nullable>enable</Nullable>
+    <Version>0.9.0</Version>
+    <PackageTags>EF Core, Entity Framework core, Encryption, Database encryption, Transparent Encryption, AES, AEAD</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
