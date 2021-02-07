@@ -162,7 +162,7 @@ public class SampleDbContext : DbContext
                   CompressionMode.None)
               .IsRequired().HasMaxLength(150);
             p.Property(t => t.SocialSecurityNumber)
-              .HasEncrypted("Patient.LastName",
+              .HasEncrypted("Patient.SocialSecurityNumber",
                   EncrypetionType.AEAD_AES_256_CBC_HMAC_SHA_256,
                   EncryptionMode.Deterministic,
                   CompressionMode.None)
