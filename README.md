@@ -6,8 +6,6 @@ Add transparent data encryption to Entity Framework Core inspired [Always Encryp
 
 _Harrison314.EntityFrameworkCore.Encryption_ is a [Microsoft Entity Framework Core](https://github.com/dotnet/efcore) extension to add support of encrypted fields using built-in or custom encryption providers.
 
-**Work in progress**
-
 ## Features
 * Database agnostic (tested on Sqlite, MS SQL Server, PostgreSQL, Azure CosmosDB).
 * Key rotation.
@@ -24,7 +22,6 @@ _Harrison314.EntityFrameworkCore.Encryption_ is a [Microsoft Entity Framework Co
   * Custom provider (custom implementation of `IDbContextEncryptedCryptoProvider`).
 
 ## High-level application architecture
-**Work in progress**
 
 ![High-level application architecture](doc/Highlevel_diagram.png)
 
@@ -98,7 +95,11 @@ public class SampleDbContext : DbContext
 }
 ```
 ### 1. Install nuget package
-TODO
+
+Run in project folder:  
+```
+dotnet add package Harrison314.EntityFrameworkCore.Encryption
+```
 
 ### 2. Register encryption services to DI
 
