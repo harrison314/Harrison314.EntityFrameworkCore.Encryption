@@ -122,6 +122,7 @@ Insert `AddEncryptionContext` to `ModelBuilder` and mark encrypted properies wit
 * _purpose_ - must by uniq string for property in context. Do not change after deploy to production!
 * _algorithm_ - chiper and AEAD algorithm.
 * _mode_ - Deterministic or randomized.
+* _compressionMode_ - Compression mode for compression plaintext data.
 
 ```cs
 public class SampleDbContext : DbContext
