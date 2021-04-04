@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Harrison314.EntityFrameworkCore.Encryption.Internal
 {
-    public interface IPropertyEncryptor
+    public interface IPropertyEncryptor : IDisposable
     {
         byte[]? Protect(byte[] data);
 

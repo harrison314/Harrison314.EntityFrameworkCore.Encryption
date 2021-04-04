@@ -18,6 +18,8 @@ namespace Harrison314.EntityFrameworkCore.Encryption.CryptoProviders
         private readonly IOptions<RemoteDbContextEncryptedCryptoProviderOptions> setup;
         private readonly ILogger<RemoteDbContextEncryptedCryptoProvider> logger;
 
+        public event EventHandler<EventArgs>? OnEmergencyKill;
+
         public string ProviderName
         {
             get => "RemoteProvider";

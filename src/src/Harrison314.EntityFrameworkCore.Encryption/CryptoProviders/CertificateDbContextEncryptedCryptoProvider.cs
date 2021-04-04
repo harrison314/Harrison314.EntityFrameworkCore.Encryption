@@ -14,6 +14,8 @@ namespace Harrison314.EntityFrameworkCore.Encryption.CryptoProviders
     {
         private readonly X509Certificate2 certificate;
 
+        public event EventHandler<EventArgs>? OnEmergencyKill;
+
         public string ProviderName
         {
             get => "LocalCertificate_v1";

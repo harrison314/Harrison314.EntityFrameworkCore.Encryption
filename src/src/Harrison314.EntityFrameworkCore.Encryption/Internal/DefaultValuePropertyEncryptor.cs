@@ -2,7 +2,7 @@
 
 namespace Harrison314.EntityFrameworkCore.Encryption.Internal
 {
-    internal class DefaultValuePropertyEncryptor : IPropertyEncryptor
+    internal sealed class DefaultValuePropertyEncryptor : IPropertyEncryptor
     {
         public DefaultValuePropertyEncryptor()
         {
@@ -17,6 +17,11 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Internal
         public byte[]? Unprotect(byte[] data)
         {
             return null;
+        }
+
+        public void Dispose()
+        {
+
         }
     }
 }

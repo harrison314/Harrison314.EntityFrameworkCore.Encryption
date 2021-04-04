@@ -30,6 +30,7 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Internal
             this.providerOptions = providerOptions ?? throw new ArgumentNullException(nameof(providerOptions));
 
             this.cacheItem = new EncryptedContextCacheItem();
+            this.crypetoProvider.OnEmergencyKill += this.CrypetoProvider_OnEmergencyKill;
         }
 
         public async Task<IEncryptedScopeCreator> EnshureEncrypted(CancellationToken cancellationToken = default)
@@ -37,7 +38,7 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Internal
             DateTime utcNow = DateTime.UtcNow;
             if (this.cacheItem.RequireNewContext(utcNow))
             {
-                await this.cacheItem.Semaphore.WaitAsync();
+                await this.cacheItem.Semaphore.WaitAsync(cancellationToken);
                 try
                 {
                     if (this.cacheItem.RequireNewContext(utcNow))
@@ -106,11 +107,24 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Internal
 
         public void Dispose()
         {
-            this.cacheItem.Dispose();
-            if (this.serviceProvider is IDisposable disposable)
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
             {
-                disposable.Dispose();
+                this.crypetoProvider.OnEmergencyKill -= this.CrypetoProvider_OnEmergencyKill;
+                this.cacheItem.Dispose();
             }
+        }
+
+        private void CrypetoProvider_OnEmergencyKill(object? sender, EventArgs e)
+        {
+            this.cacheItem.RemoveContext();
+
+            // TODO: global event
         }
 
         private async Task EnshureEncryptionKeyInDb(CancellationToken cancellationToken)

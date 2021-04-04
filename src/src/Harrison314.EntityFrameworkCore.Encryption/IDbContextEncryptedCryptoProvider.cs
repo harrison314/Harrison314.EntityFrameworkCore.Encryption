@@ -14,6 +14,8 @@ namespace Harrison314.EntityFrameworkCore.Encryption
             get;
         }
 
+        event EventHandler<EventArgs>? OnEmergencyKill;
+
         ValueTask<MasterKeyData> EncryptMasterKey(byte[] masterKey, CancellationToken cancellationToken);
 
         ValueTask<string> FilterAcceptKeyIds(List<string> keyIds, CancellationToken cancellationToken);

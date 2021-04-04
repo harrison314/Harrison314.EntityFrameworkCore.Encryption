@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Harrison314.EntityFrameworkCore.Encryption.Internal
 {
-    internal class EncryptionContext : IEncryptionContext
+    internal class EncryptionContext : IEncryptionContext, IDisposable
     {
         private readonly byte[] masterKey;
         private readonly Dictionary<string, IPropertyEncryptor> cahce;
@@ -33,6 +33,27 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Internal
             }
 
             return propertyEncryptor;
+        }
+
+        public void Dispose()
+        {
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                CryptographicOperations.ZeroMemory(this.masterKey);
+
+                foreach (var cacheItem in this.cahce)
+                {
+                    cacheItem.Value.Dispose();
+                }
+
+                this.cahce.Clear();
+            }
         }
 
         private IPropertyEncryptor CreateForProperty(string purpose, EncrypetionType encrypetionType, EncryptionMode encryptionMode)

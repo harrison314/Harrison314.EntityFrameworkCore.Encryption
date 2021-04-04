@@ -24,6 +24,8 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Contrib.CryptoProviders.Pkc
         private ISlot slot;
         private ISession masterSession;
 
+        public event EventHandler<EventArgs> OnEmergencyKill;
+
         public string ProviderName
         {
             get => "Pkcs11-Data";

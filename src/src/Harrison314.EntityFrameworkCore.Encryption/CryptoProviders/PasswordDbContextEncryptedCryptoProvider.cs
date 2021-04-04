@@ -13,6 +13,8 @@ namespace Harrison314.EntityFrameworkCore.Encryption.CryptoProviders
         private readonly byte[] passwordData;
         private const string PasswordName = "MasterPassword";
 
+        public event EventHandler<EventArgs>? OnEmergencyKill;
+
         public string ProviderName
         {
             get => "Password_v1";

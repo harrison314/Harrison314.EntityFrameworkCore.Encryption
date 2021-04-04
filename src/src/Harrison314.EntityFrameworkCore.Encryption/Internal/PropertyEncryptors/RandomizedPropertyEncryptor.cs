@@ -88,5 +88,19 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Internal.PropertyEncryptors
                 throw new EfEncryptionException(Strings.UnprotectEncryptedException, ex);
             }
         }
+
+        public void Dispose()
+        {
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                CryptographicOperations.ZeroMemory(this.key);
+            }
+        }
     }
 }
