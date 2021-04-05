@@ -17,6 +17,7 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             serviceCollection.Configure<DbContextEncryptedProviderOptions<TDbContext>>(setup ?? (_ => { }));
             serviceCollection.AddSingleton<IDbContextEncryptedProvider<TDbContext>, DbContextEncryptedProvider<TDbContext>>();
+            serviceCollection.AddSingleton<IEncryptedContextLifetime, EncryptedContextLifetime>();
 
             return new EncryptedContextBuilder(serviceCollection);
         }

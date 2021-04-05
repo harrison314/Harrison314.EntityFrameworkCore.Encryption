@@ -124,7 +124,8 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Internal
         {
             this.cacheItem.RemoveContext();
 
-            // TODO: global event
+            IEncryptedContextLifetime? encryptedContextLifetime = (IEncryptedContextLifetime?)this.serviceProvider.GetService(typeof(IEncryptedContextLifetime));
+            encryptedContextLifetime?.EmergencyKill();
         }
 
         private async Task EnshureEncryptionKeyInDb(CancellationToken cancellationToken)
