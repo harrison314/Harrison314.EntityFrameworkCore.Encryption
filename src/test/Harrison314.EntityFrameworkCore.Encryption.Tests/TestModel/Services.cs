@@ -17,16 +17,26 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Tests.TestModel
             set;
         }
 
-        public Services(TestModelContext context)
+        public Services(TestModelContext context, Func<IDbContextEncryptedCryptoProvider> providerFactory = null)
         {
-            this.ServiceProvider = new ServiceCollection()
+            IServiceCollection sc = new ServiceCollection()
                 .AddSingleton(context)
-                .Configure<DbContextEncryptedProviderOptions<TestModelContext>>(o=>{
-                    
-            })
-                .AddTransient<IDbContextEncryptedProvider<TestModelContext>, DbContextEncryptedProvider<TestModelContext>>()
-                .AddTransient<IDbContextEncryptedCryptoProvider>(_ => new PasswordDbContextEncryptedCryptoProvider("Password"))
-            .BuildServiceProvider();
+                .Configure<DbContextEncryptedProviderOptions<TestModelContext>>(o => {
+
+                });
+
+            EncryptedContextBuilder builder = sc.AddEncryptedContext<TestModelContext>();
+
+            if (providerFactory != null)
+            {
+                sc.AddTransient<IDbContextEncryptedCryptoProvider>(_ => providerFactory());
+            }
+            else
+            {
+                builder.WithPasswordEncryptionProvider("Password");
+            }
+
+            this.ServiceProvider = sc.BuildServiceProvider();
         }
 
         public TestModelContext GetDontext()

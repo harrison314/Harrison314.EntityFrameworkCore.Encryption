@@ -20,7 +20,6 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Internal
         private readonly IOptions<DbContextEncryptedProviderOptions<TDbContext>> providerOptions;
         private readonly EncryptedContextCacheItem cacheItem;
 
-
         public DbContextEncryptedProvider(IDbContextEncryptedCryptoProvider crypetoProvider,
             IServiceProvider serviceProvider,
             IOptions<DbContextEncryptedProviderOptions<TDbContext>> providerOptions)
@@ -28,6 +27,7 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Internal
             this.crypetoProvider = crypetoProvider ?? throw new ArgumentNullException(nameof(crypetoProvider));
             this.serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
             this.providerOptions = providerOptions ?? throw new ArgumentNullException(nameof(providerOptions));
+
 
             this.cacheItem = new EncryptedContextCacheItem();
             this.crypetoProvider.OnEmergencyKill += this.CrypetoProvider_OnEmergencyKill;
