@@ -40,6 +40,12 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Contrib.CryptoProviders.Pkc
             set;
         }
 
+        public TimeSpan? CheckTokenTimeout
+        {
+            get;
+            set;
+        }
+
         public Pkcs11DataProviderOptions()
         {
 

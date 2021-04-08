@@ -23,6 +23,8 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Contrib.CryptoProviders.Pkc
         private readonly IPkcs11Library pkcs11Library;
         private ISlot slot;
         private ISession masterSession;
+        private bool disposed;
+        private Timer timer;
 
         public event EventHandler<EventArgs> OnEmergencyKill;
 
@@ -46,14 +48,58 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Contrib.CryptoProviders.Pkc
 
             this.slot = null;
             this.masterSession = null;
+            this.disposed = false;
+
+            if (pkcs11Options.Value.CheckTokenTimeout.HasValue)
+            {
+                this.timer = new Timer(this.TimerCallback,
+                    null,
+                    pkcs11Options.Value.CheckTokenTimeout.Value,
+                    pkcs11Options.Value.CheckTokenTimeout.Value);
+            }
+            else
+            {
+                this.timer = null;
+            }
 
             this.logger.LogDebug("Created Pkcs11DataProvider.");
+        }
+
+        private void TimerCallback(object state)
+        {
+            if (this.pkcs11Library != null)
+            {
+                string tokenLabel = this.pkcs11Options.Value.TokenLabel;
+                bool existsToken = this.pkcs11Library.GetSlotList(SlotsType.WithOrWithoutTokenPresent)
+                     .Any(t =>
+                     {
+                         try
+                         {
+                             string label = t.GetTokenInfo().Label;
+                             return string.Equals(label, tokenLabel, StringComparison.Ordinal);
+                         }
+                         catch (Exception ex)
+                         {
+                             this.logger.LogWarning(ex, "Error with GetTokenInfo.");
+                             return false;
+                         }
+                     });
+
+                if (!existsToken && !this.disposed)
+                {
+                    this.logger.LogCritical("Emergency activate Killswitch from PKCS#11 provider.");
+                    this.OnEmergencyKill?.Invoke(this, EventArgs.Empty);
+
+                    this.Dispose(true);
+                }
+            }
         }
 
         public async ValueTask<byte[]> DecryptMasterKey(MasterKeyData masterKeyData, CancellationToken cancellationToken)
         {
             this.logger.LogTrace("Entering to DecryptMasterKey. KeyId: {keyId}", masterKeyData?.KeyId);
 
+            this.CheckDisposed();
             if (masterKeyData == null) throw new ArgumentNullException(nameof(masterKeyData));
 
             this.ValidateKeyId(masterKeyData.KeyId);
@@ -114,6 +160,7 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Contrib.CryptoProviders.Pkc
         {
             this.logger.LogTrace("Entering to EncryptMasterKey.");
 
+            this.CheckDisposed();
             if (masterKey == null) throw new ArgumentNullException(nameof(masterKey));
 
             await this.EnshureLogged(cancellationToken);
@@ -184,6 +231,7 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Contrib.CryptoProviders.Pkc
         {
             this.logger.LogTrace("Enetring to FilterAcceptKeyIds.");
 
+            this.CheckDisposed();
             if (keyIds == null) throw new ArgumentNullException(nameof(keyIds));
 
             await this.EnshureLogged(cancellationToken);
@@ -224,14 +272,6 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Contrib.CryptoProviders.Pkc
 
             this.logger.LogDebug("Not found supported ckaObjectId.");
             return null;
-        }
-
-        public void Dispose()
-        {
-            this.logger.LogTrace("Entering to Dispose.");
-
-            this.masterSession?.Dispose();
-            this.pkcs11Library?.Dispose();
         }
 
         private byte[] DerieveKey(byte[] data, Pkcs11SecritData passwordData, int keySize = 32)
@@ -303,6 +343,38 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Contrib.CryptoProviders.Pkc
                 }
 
                 this.logger.LogDebug("Sucessfull loged to PKCS11 device.");
+            }
+        }
+
+        public void Dispose()
+        {
+            this.logger.LogTrace("Entering to Dispose.");
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool dispose)
+        {
+            if (this.disposed)
+            {
+                return;
+            }
+
+            if (dispose)
+            {
+                this.timer?.Dispose();
+                this.masterSession?.Dispose();
+                this.pkcs11Library?.Dispose();
+            }
+
+            this.disposed = true;
+        }
+
+        private void CheckDisposed()
+        {
+            if (this.disposed)
+            {
+                throw new ObjectDisposedException(nameof(Pkcs11DataProvider));
             }
         }
     }
