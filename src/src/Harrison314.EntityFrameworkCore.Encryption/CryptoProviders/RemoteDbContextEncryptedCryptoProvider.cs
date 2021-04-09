@@ -36,6 +36,8 @@ namespace Harrison314.EntityFrameworkCore.Encryption.CryptoProviders
 
         public async ValueTask<byte[]> DecryptMasterKey(MasterKeyData masterKeyData, CancellationToken cancellationToken)
         {
+            this.logger.LogTrace("Entering to DecryptMasterKey");
+
             if (masterKeyData == null) throw new ArgumentNullException(nameof(masterKeyData));
 
             DecryptMasterKeyRequest request = new DecryptMasterKeyRequest()
@@ -57,6 +59,8 @@ namespace Harrison314.EntityFrameworkCore.Encryption.CryptoProviders
 
         public async ValueTask<MasterKeyData> EncryptMasterKey(byte[] masterKey, CancellationToken cancellationToken)
         {
+            this.logger.LogTrace("Entering to EncryptMasterKey");
+
             if (masterKey == null) throw new ArgumentNullException(nameof(masterKey));
 
             EncryptMasterKeyRequest request = new EncryptMasterKeyRequest()
@@ -81,6 +85,8 @@ namespace Harrison314.EntityFrameworkCore.Encryption.CryptoProviders
 
         public async ValueTask<string> FilterAcceptKeyIds(List<string> keyIds, CancellationToken cancellationToken)
         {
+            this.logger.LogTrace("Entering to FilterAcceptKeyIds");
+
             if (keyIds == null) throw new ArgumentNullException(nameof(keyIds));
 
             FilterAcceptKeyIdsRequest request = new FilterAcceptKeyIdsRequest()
@@ -102,7 +108,11 @@ namespace Harrison314.EntityFrameworkCore.Encryption.CryptoProviders
 
         private async Task<TResult> ExecuteRequest<TRequest, TResult>(string suffix, TRequest requestObject, CancellationToken cancellationToken)
         {
+            this.logger.LogTrace("Entering to ExecuteRequest");
+
             string fullUrl = this.CreateUrl(suffix);
+            this.logger.LogDebug("Executing POST to {fullUrl}", fullUrl);
+
             HttpClient client = this.httpClientFactory.CreateClient();
             using HttpResponseMessage? response = await client.PostAsJsonAsync<TRequest>(fullUrl, requestObject, cancellationToken);
 

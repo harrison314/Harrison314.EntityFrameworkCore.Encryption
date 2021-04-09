@@ -9,8 +9,8 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Internal.PropertyEncryptors
 {
     public class DeterministicPropertyEncryptor : IPropertyEncryptor
     {
-        private byte[] key;
-        private byte[] iv;
+        private readonly byte[] key;
+        private readonly byte[] iv;
 
         public DeterministicPropertyEncryptor(byte[] key, byte[] iv)
         {

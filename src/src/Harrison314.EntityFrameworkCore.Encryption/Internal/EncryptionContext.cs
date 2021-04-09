@@ -47,7 +47,7 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Internal
             {
                 CryptographicOperations.ZeroMemory(this.masterKey);
 
-                foreach (var cacheItem in this.cahce)
+                foreach (KeyValuePair<string, IPropertyEncryptor> cacheItem in this.cahce)
                 {
                     cacheItem.Value.Dispose();
                 }

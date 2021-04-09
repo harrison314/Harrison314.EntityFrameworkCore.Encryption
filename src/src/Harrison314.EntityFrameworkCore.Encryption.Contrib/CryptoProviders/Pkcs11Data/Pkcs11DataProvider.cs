@@ -91,6 +91,7 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Contrib.CryptoProviders.Pkc
                     this.OnEmergencyKill?.Invoke(this, EventArgs.Empty);
 
                     this.Dispose(true);
+                    this.timer = null;
                 }
             }
         }

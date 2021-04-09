@@ -125,7 +125,7 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Contrib
             customizeSetup.Invoke(decryptMasterKeyBehoiar);
         }
 
-        private static void HandleError(Exception exception, HttpContext context)
+        private static void HandleError(Exception exception, HttpContext _)
         {
             if (exception is not EfEncryptionException)
             {
