@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -18,6 +19,8 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Internal.PropertyEncryptors
             this.iv = iv;
         }
 
+        [SuppressMessage("Security", "SCS0015:Hardcoded value in '{0}'.", Justification = "<Pending>")]
+        [SuppressMessage("Security", "SCS0013:Potential usage of weak CipherMode.", Justification = "<Pending>")]
         public byte[] Protect(byte[] data)
         {
             using Aes aes = Aes.Create();
@@ -41,6 +44,8 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Internal.PropertyEncryptors
             return rv;
         }
 
+        [SuppressMessage("Security", "SCS0015:Hardcoded value in '{0}'.", Justification = "<Pending>")]
+        [SuppressMessage("Security", "SCS0013:Potential usage of weak CipherMode.", Justification = "<Pending>")]
         public byte[] Unprotect(byte[] data)
         {
             using Aes aes = Aes.Create();

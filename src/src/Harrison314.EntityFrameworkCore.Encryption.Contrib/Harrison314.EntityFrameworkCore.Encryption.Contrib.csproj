@@ -28,6 +28,10 @@ PKCS#11 Data crypto provider.</Description>
 
   <ItemGroup>
     <PackageReference Include="Pkcs11Interop" Version="5.1.1" />
+    <PackageReference Include="SecurityCodeScan.VS2019" Version="5.1.0">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>

@@ -22,7 +22,7 @@ namespace Microsoft.Extensions.DependencyInjection
         public static EncryptedContextBuilder WithPasswordEncryptionProvider(this EncryptedContextBuilder builder, string password)
         {
             if (password == null) throw new ArgumentNullException(nameof(password));
-            if (string.IsNullOrEmpty(password)) throw new ArgumentException(nameof(password));
+            if (string.IsNullOrEmpty(password)) throw new ArgumentException("Password can not by empty string.", nameof(password));
 
             builder.ServiceCollection.AddTransient<IDbContextEncryptedCryptoProvider>(_ => new PasswordDbContextEncryptedCryptoProvider(password));
 

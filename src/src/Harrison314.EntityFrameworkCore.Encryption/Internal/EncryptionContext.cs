@@ -58,6 +58,11 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Internal
 
         private IPropertyEncryptor CreateForProperty(string purpose, EncrypetionType encrypetionType, EncryptionMode encryptionMode)
         {
+            if (encrypetionType != EncrypetionType.AEAD_AES_256_CBC_HMAC_SHA_256)
+            {
+                throw new InvalidProgramException($"Enum value {encrypetionType} is not supported.");
+            }
+
             byte[] purposeBytes = Encoding.UTF8.GetBytes(purpose);
             byte[] propertyKey = new byte[32];
             PkcsExtensions.Algorithms.SP800_108.DeriveKey(() => new HMACSHA256(), this.masterKey, purposeBytes, derivedOutput: propertyKey);

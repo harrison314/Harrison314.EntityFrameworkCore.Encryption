@@ -16,6 +16,7 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Internal.PropertyEncryptors
             this.key = key;
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Security", "SCS0013:Potential usage of weak CipherMode.", Justification = "<Pending>")]
         public byte[] Protect(byte[] data)
         {
             byte[] seed = new byte[32];
@@ -49,6 +50,7 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Internal.PropertyEncryptors
             return rv;
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Security", "SCS0013:Potential usage of weak CipherMode.", Justification = "<Pending>")]
         public byte[] Unprotect(byte[] data)
         {
             byte[] internalKey = new byte[32]; //Do sharovaneho objektu
