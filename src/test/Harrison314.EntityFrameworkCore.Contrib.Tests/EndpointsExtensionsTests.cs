@@ -60,7 +60,7 @@ namespace Harrison314.EntityFrameworkCore.Contrib.Tests
 
             List<string> keyIds = new List<string>() { "key1", "key2", "key3" };
 
-            Mock<ILogger<RemoteDbContextEncryptedCryptoProvider>> loggerMock = new Mock<ILogger<RemoteDbContextEncryptedCryptoProvider>>(MockBehavior.Strict);
+            Mock<ILogger<RemoteDbContextEncryptedCryptoProvider>> loggerMock = new Mock<ILogger<RemoteDbContextEncryptedCryptoProvider>>(MockBehavior.Default);
 
             RemoteDbContextEncryptedCryptoProviderOptions remoteDbContextEncryptedCryptoProviderOptions = new RemoteDbContextEncryptedCryptoProviderOptions()
             {
@@ -112,7 +112,7 @@ namespace Harrison314.EntityFrameworkCore.Contrib.Tests
 
             List<string> keyIds = new List<string>() { "key1", "key2", "key3" };
 
-            Mock<ILogger<RemoteDbContextEncryptedCryptoProvider>> loggerMock = new Mock<ILogger<RemoteDbContextEncryptedCryptoProvider>>(MockBehavior.Strict);
+            Mock<ILogger<RemoteDbContextEncryptedCryptoProvider>> loggerMock = new Mock<ILogger<RemoteDbContextEncryptedCryptoProvider>>(MockBehavior.Default);
 
             RemoteDbContextEncryptedCryptoProviderOptions remoteDbContextEncryptedCryptoProviderOptions = new RemoteDbContextEncryptedCryptoProviderOptions()
             {
@@ -167,7 +167,7 @@ namespace Harrison314.EntityFrameworkCore.Contrib.Tests
 
             using HttpClient client = host.GetTestClient();
 
-            Mock<ILogger<RemoteDbContextEncryptedCryptoProvider>> loggerMock = new Mock<ILogger<RemoteDbContextEncryptedCryptoProvider>>(MockBehavior.Strict);
+            Mock<ILogger<RemoteDbContextEncryptedCryptoProvider>> loggerMock = new Mock<ILogger<RemoteDbContextEncryptedCryptoProvider>>(MockBehavior.Default);
 
             RemoteDbContextEncryptedCryptoProviderOptions remoteDbContextEncryptedCryptoProviderOptions = new RemoteDbContextEncryptedCryptoProviderOptions()
             {
@@ -219,7 +219,7 @@ namespace Harrison314.EntityFrameworkCore.Contrib.Tests
 
             using HttpClient client = host.GetTestClient();
 
-            Mock<ILogger<RemoteDbContextEncryptedCryptoProvider>> loggerMock = new Mock<ILogger<RemoteDbContextEncryptedCryptoProvider>>(MockBehavior.Strict);
+            Mock<ILogger<RemoteDbContextEncryptedCryptoProvider>> loggerMock = new Mock<ILogger<RemoteDbContextEncryptedCryptoProvider>>(MockBehavior.Default);
 
             RemoteDbContextEncryptedCryptoProviderOptions remoteDbContextEncryptedCryptoProviderOptions = new RemoteDbContextEncryptedCryptoProviderOptions()
             {
