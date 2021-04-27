@@ -23,8 +23,12 @@ namespace Harrison314.EntityFrameworkCore.Encryption.CryptoProviders
         public PasswordDbContextEncryptedCryptoProvider(string password)
         {
             if (password == null) throw new ArgumentNullException(nameof(password));
+            if (string.IsNullOrEmpty(password))
+            {
+                throw new ArgumentException("The parameter password cannot be an empty string.");
+            }
 
-            this.passwordData = System.Text.Encoding.ASCII.GetBytes(password);
+            this.passwordData = System.Text.Encoding.UTF8.GetBytes(password);
         }
 
         public ValueTask<MasterKeyData> EncryptMasterKey(byte[] masterKey, CancellationToken cancellationToken)
