@@ -24,6 +24,11 @@ namespace Harrison314.EntityFrameworkCore.Encryption.CryptoProviders
         public CertificateDbContextEncryptedCryptoProvider(X509Certificate2 certificate)
         {
             this.certificate = certificate ?? throw new ArgumentNullException(nameof(certificate));
+            if (this.certificate.GetRSAPublicKey() is null)
+            {
+                throw new ArgumentException("Certificate does not have RSA keys.");
+            }
+
             if (!this.certificate.IsForEncryption())
             {
                 throw new ArgumentException("Certificate is not issued for encryption.");
