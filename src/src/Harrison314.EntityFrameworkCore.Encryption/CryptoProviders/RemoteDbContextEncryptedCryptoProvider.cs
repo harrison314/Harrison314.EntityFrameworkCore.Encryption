@@ -29,9 +29,9 @@ namespace Harrison314.EntityFrameworkCore.Encryption.CryptoProviders
             IOptions<RemoteDbContextEncryptedCryptoProviderOptions> setup,
             ILogger<RemoteDbContextEncryptedCryptoProvider> logger)
         {
-            this.httpClientFactory = httpClientFactory;
-            this.setup = setup;
-            this.logger = logger;
+            this.httpClientFactory = httpClientFactory ?? throw new ArgumentNullException(nameof(httpClientFactory));
+            this.setup = setup ?? throw new ArgumentNullException(nameof(setup));
+            this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         public async ValueTask<byte[]> DecryptMasterKey(MasterKeyData masterKeyData, CancellationToken cancellationToken)
