@@ -113,7 +113,7 @@ namespace Harrison314.EntityFrameworkCore.Encryption.CryptoProviders
             string fullUrl = this.CreateUrl(suffix);
             this.logger.LogDebug("Executing POST to {fullUrl}", fullUrl);
 
-            HttpClient client = this.httpClientFactory.CreateClient();
+            HttpClient client = this.CreateClient();
             using HttpResponseMessage? response = await client.PostAsJsonAsync<TRequest>(fullUrl, requestObject, cancellationToken);
 
             TResult? responseObject = response.StatusCode switch
@@ -132,6 +132,19 @@ namespace Harrison314.EntityFrameworkCore.Encryption.CryptoProviders
             }
 
             return responseObject;
+        }
+
+        private HttpClient CreateClient()
+        {
+            string? clientName = this.setup.Value.HttpClientName;
+            if (string.IsNullOrEmpty(clientName))
+            {
+                return this.httpClientFactory.CreateClient();
+            }
+            else
+            {
+                return this.httpClientFactory.CreateClient(clientName);
+            }
         }
     }
 }
