@@ -12,6 +12,7 @@ _Harrison314.EntityFrameworkCore.Encryption_ is a [Microsoft Entity Framework Co
 * Simple for use.
 * Deterministic or randomized encryption.
 * Build using standard cryptographic algorithms (AES, HMAC SHA2, SP800-108, PBKDF-2,...).
+* Data compression (GZip, LZW).
 * Internal or external (out of process or on another server e.c. Azure Key Valut) encryption providers.
 * Emergency KillSwitch (e.g. for wipe private keys and exiting application when the smartcard is ripped off).
 * Encryption providers:
