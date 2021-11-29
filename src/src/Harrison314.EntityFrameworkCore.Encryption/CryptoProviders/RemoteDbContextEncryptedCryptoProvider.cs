@@ -122,7 +122,7 @@ namespace Harrison314.EntityFrameworkCore.Encryption.CryptoProviders
                 System.Net.HttpStatusCode.Unauthorized => throw new UnauthorizedAccessException($"Remote DbContextEncryption provider return unathorized access. Url: {fullUrl}"),
                 System.Net.HttpStatusCode.NotFound => throw new EfEncryptionException($"Remote DbContextEncryption provider not found. Url: {fullUrl}"),
                 System.Net.HttpStatusCode.InternalServerError => throw new EfEncryptionException($"Remote DbContextEncryption provider return internal server error. Url: {fullUrl}"),
-                System.Net.HttpStatusCode.OK => await response.Content.ReadFromJsonAsync<TResult>(null, cancellationToken),
+                System.Net.HttpStatusCode.OK => await response.Content.ReadFromJsonAsync<TResult>(options:null, cancellationToken),
                 _ => throw new EfEncryptionException($"Remote DbContextEncryption provider return {response.StatusCode}. Url: {fullUrl}")
             };
 
