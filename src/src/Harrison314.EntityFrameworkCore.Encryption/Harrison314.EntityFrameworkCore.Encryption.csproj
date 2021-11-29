@@ -8,7 +8,7 @@
     <PackageProjectUrl>https://github.com/harrison314/Harrison314.EntityFrameworkCore.Encryption/</PackageProjectUrl>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/harrison314/Harrison314.EntityFrameworkCore.Encryption/</RepositoryUrl>
-    <Description>This library adds transparent data encryption to Entity Framework Core 5.0 inspired  Always Encrypted from MS SQL Server.
+    <Description>This library adds transparent data encryption to Entity Framework Core 6.0 inspired  Always Encrypted from MS SQL Server.
 Work with any database and using standard cryptographic algorithms (AES, HMAC SHA, SP800-108, PBKDF-2,...).</Description>
     <PackageIcon>NugetIcon.png</PackageIcon>
     <Nullable>enable</Nullable>
