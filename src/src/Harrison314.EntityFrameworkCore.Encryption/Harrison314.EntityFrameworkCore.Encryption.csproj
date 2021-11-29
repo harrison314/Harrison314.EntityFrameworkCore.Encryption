@@ -12,7 +12,7 @@
 Work with any database and using standard cryptographic algorithms (AES, HMAC SHA, SP800-108, PBKDF-2,...).</Description>
     <PackageIcon>NugetIcon.png</PackageIcon>
     <Nullable>enable</Nullable>
-    <Version>1.0.0</Version>
+    <Version>1.1.0</Version>
     <PackageTags>EF Core, Entity Framework core, Encryption, Database encryption, Transparent Encryption, AES, AEAD</PackageTags>
     <AssemblyVersion>1.1.0.0</AssemblyVersion>
     <FileVersion>1.1.0.0</FileVersion>
