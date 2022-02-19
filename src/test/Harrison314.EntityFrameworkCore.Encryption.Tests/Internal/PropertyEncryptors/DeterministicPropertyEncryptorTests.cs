@@ -22,10 +22,10 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Tests.Internal.PropertyEncr
         [DataRow(1024000)]
         public void Protect(int size)
         {
-            (byte[] key, byte[] iv) = this.GenerateKeys();
+            (byte[] key, byte[] masterKey, byte[] purposeBytes) = this.GenerateKeys();
             byte[] data = this.GetFastRandom(size);
 
-            DeterministicPropertyEncryptor encryptor = new DeterministicPropertyEncryptor(key, iv);
+            DeterministicPropertyEncryptor encryptor = new DeterministicPropertyEncryptor(key, masterKey, purposeBytes);
 
             byte[] encrypted = encryptor.Protect(data);
             Assert.IsNotNull(encrypted);
@@ -39,10 +39,10 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Tests.Internal.PropertyEncr
         [DataRow(1024)]
         public async Task ProtectsAreEquaals(int size)
         {
-            (byte[] key, byte[] iv) = this.GenerateKeys();
+            (byte[] key, byte[] masterKey, byte[] purposeBytes) = this.GenerateKeys();
             byte[] data = this.GetFastRandom(size);
 
-            DeterministicPropertyEncryptor encryptor = new DeterministicPropertyEncryptor(key, iv);
+            DeterministicPropertyEncryptor encryptor = new DeterministicPropertyEncryptor(key, masterKey, purposeBytes);
 
             byte[] encrypted1 = encryptor.Protect(data);
             await Task.Delay(10);
@@ -59,10 +59,10 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Tests.Internal.PropertyEncr
         [DataRow(1024000)]
         public void Unprotect(int size)
         {
-            (byte[] key, byte[] iv) = this.GenerateKeys();
+            (byte[] key, byte[] masterKey, byte[] purposeBytes) = this.GenerateKeys();
             byte[] data = this.GetFastRandom(size);
 
-            DeterministicPropertyEncryptor encryptor = new DeterministicPropertyEncryptor(key, iv);
+            DeterministicPropertyEncryptor encryptor = new DeterministicPropertyEncryptor(key, masterKey, purposeBytes);
 
             byte[] encrypted = encryptor.Protect(data);
             byte[] decrypted = encryptor.Unprotect(encrypted);
@@ -74,10 +74,10 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Tests.Internal.PropertyEncr
         [TestMethod]
         public void UnprotectBrokenData()
         {
-            (byte[] key, byte[] iv) = this.GenerateKeys();
+            (byte[] key, byte[] masterKey, byte[] purposeBytes) = this.GenerateKeys();
             byte[] data = this.GetFastRandom(251);
 
-            DeterministicPropertyEncryptor encryptor = new DeterministicPropertyEncryptor(key, iv);
+            DeterministicPropertyEncryptor encryptor = new DeterministicPropertyEncryptor(key, masterKey, purposeBytes);
 
             byte[] encrypted = encryptor.Protect(data);
 
@@ -93,15 +93,15 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Tests.Internal.PropertyEncr
             }
         }
 
-        private (byte[] key, byte[] iv) GenerateKeys()
+        private (byte[] key, byte[] masterKey, byte[] purposeBytes) GenerateKeys()
         {
             byte[] key = new byte[32];
-            byte[] iv = new byte[16];
+            byte[] masterKey = new byte[32];
 
             RandomNumberGenerator.Fill(key);
-            RandomNumberGenerator.Fill(iv);
+            RandomNumberGenerator.Fill(masterKey);
 
-            return (key, iv);
+            return (key, masterKey, Encoding.UTF8.GetBytes("Example.Test.Value"));
         }
 
         private byte[] GetFastRandom(int size)

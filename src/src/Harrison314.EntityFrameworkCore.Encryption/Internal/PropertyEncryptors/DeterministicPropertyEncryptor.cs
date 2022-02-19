@@ -13,8 +13,11 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Internal.PropertyEncryptors
         private readonly byte[] key;
         private readonly byte[] iv;
 
-        public DeterministicPropertyEncryptor(byte[] key, byte[] iv)
+        public DeterministicPropertyEncryptor(byte[] key, byte[] masterKey, byte[] purposeBytes)
         {
+            byte[] iv = new byte[16];
+            PkcsExtensions.Algorithms.SP800_108.DeriveKey(() => new HMACSHA256(), masterKey, purposeBytes, derivedOutput: iv, counter: 4512141);
+
             this.key = key;
             this.iv = iv;
         }

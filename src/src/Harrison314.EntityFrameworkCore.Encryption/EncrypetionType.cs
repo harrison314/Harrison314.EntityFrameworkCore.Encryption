@@ -8,6 +8,7 @@ namespace Harrison314.EntityFrameworkCore.Encryption
 {
     public enum EncrypetionType
     {
-        AEAD_AES_256_CBC_HMAC_SHA_256
+        AEAD_AES_256_CBC_HMAC_SHA_256,
+        AES_GCM
     }
 }
