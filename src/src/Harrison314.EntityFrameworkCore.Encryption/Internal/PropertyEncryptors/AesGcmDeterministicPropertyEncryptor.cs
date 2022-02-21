@@ -35,6 +35,7 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Internal.PropertyEncryptors
                 this.nonceAndTag.AsSpan(NonceLen, TagLen),
                 default);
 
+
             return reult;
         }
 
@@ -43,11 +44,19 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Internal.PropertyEncryptors
             byte[] plaintext = new byte[data.Length];
 
             using AesGcm aesgcm = new AesGcm(this.key);
-            aesgcm.Decrypt(this.nonceAndTag.AsSpan(0, NonceLen),
-                data,
-                plaintext,
-                this.nonceAndTag.AsSpan(NonceLen, TagLen),
-                default);
+
+            try
+            {
+                aesgcm.Decrypt(this.nonceAndTag.AsSpan(0, NonceLen),
+                    data,
+                    this.nonceAndTag.AsSpan(NonceLen, TagLen),
+                    plaintext,
+                    default);
+            }
+            catch (CryptographicException ex)
+            {
+                throw new EfEncryptionException(Strings.UnprotectEncryptedException, ex);
+            }
 
             return plaintext;
         }
