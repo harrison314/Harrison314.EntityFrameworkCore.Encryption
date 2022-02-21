@@ -27,7 +27,7 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Internal.PropertyEncryptors
             Span<byte> seed = reult.AsSpan(0, SeedLen);
             Span<byte> internalKey = stackalloc byte[KeyLen];
 
-            RandomNumberGenerator.Fill(reult.AsSpan(0, SeedLen + NonceLen + TagLen));
+            RandomNumberGenerator.Fill(reult.AsSpan(0, SeedLen + NonceLen));
 
             PkcsExtensions.Algorithms.SP800_108.DeriveKey(() => new HMACSHA256(),
                 this.key,

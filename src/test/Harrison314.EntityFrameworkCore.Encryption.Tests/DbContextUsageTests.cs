@@ -331,6 +331,66 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Tests
                 });
         }
 
+        [DataTestMethod]
+        [DataRow("")]
+        [DataRow("a")]
+        [DataRow("š")]
+        [DataRow("Sed eleifend lorem neque, sit amet pharetra leo pellentesque cursus. Sed semper varius dui, ac fringilla turpis posuere nec.")]
+        [DataRow("Nunc nunc massa, euismod id diam in, iaculis faucibus diam. Etiam id leo sed est fringilla tempor. Aliquam ut consectetur lacus. Sed dictum felis eu erat volutpat gravida. Suspendisse eu vestibulum ligula. Cras accumsan elit nisi, vel pulvinar lorem venenatis ac. In facilisis eget nibh nec iaculis. Nulla condimentum libero sit amet tellus iaculis, eu rhoncus ex dictum. Vivamus id convallis orci, eget porta mauris. Donec tristique dui at massa rhoncus ornare. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nullam ut eros ut eros fringilla lobortis. ")]
+        public async Task TestAesGcmEncryptString(string value)
+        {
+            await this.TestValues<AesGcmEntity>(() => new AesGcmEntity() { Value = value, ValueRandomized = value, ValueGzped = value, Value2 = 42, Value3 = 13.0 },
+                e =>
+                {
+                    Assert.AreEqual(default(string), e.Value);
+                    Assert.AreEqual(default(string), e.ValueRandomized);
+                    Assert.AreEqual(default(string), e.ValueGzped);
+                },
+                e =>
+                {
+                    Assert.AreEqual(value, e.Value);
+                    Assert.AreEqual(value, e.ValueRandomized);
+                    Assert.AreEqual(value, e.ValueGzped);
+                });
+        }
+
+        [DataTestMethod]
+        [DataRow(-153.0)]
+        [DataRow(0.0)]
+        [DataRow(1.0)]
+        [DataRow(1245896.4586623)]
+        [DataRow(3.145896236)]
+        public async Task TestAesGcmEncryptDouble(double value)
+        {
+            await this.TestValues<AesGcmEntity>(() => new AesGcmEntity() { Value = "hello", ValueRandomized = "hello", ValueGzped = "hello", Value2 = 42, Value3 = value },
+                e =>
+                {
+                    Assert.AreEqual(default(double), e.Value3);
+                },
+                e =>
+                {
+                    Assert.AreEqual(value, e.Value3);
+                });
+        }
+
+        [DataTestMethod]
+        [DataRow(-153)]
+        [DataRow(0)]
+        [DataRow(1)]
+        [DataRow(1245896)]
+        public async Task TestAesGcmEncryptInt32(int value)
+        {
+            await this.TestValues<AesGcmEntity>(() => new AesGcmEntity() { Value = "hello", ValueRandomized = "hello", ValueGzped = "hello", Value2 = value, Value3 = 13.0 },
+                e =>
+                {
+                    Assert.AreEqual(default(int), e.Value2);
+                },
+                e =>
+                {
+                    Assert.AreEqual(value, e.Value2);
+                });
+        }
+
         private async Task TestValues<TEntity>(Func<TEntity> create, Action<TEntity> checkDefault, Action<TEntity> checkDecrypted)
             where TEntity : class
         {

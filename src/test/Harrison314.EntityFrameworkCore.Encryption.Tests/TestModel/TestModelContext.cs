@@ -89,6 +89,12 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Tests.TestModel
             set;
         }
 
+        public DbSet<AesGcmEntity> AesGcmEntitys
+        {
+            get;
+            set;
+        }
+
         public TestModelContext([NotNull] DbContextOptions options, IDisposable disposable)
             : base(options)
         {
@@ -219,6 +225,38 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Tests.TestModel
                     EncrypetionType.AEAD_AES_256_CBC_HMAC_SHA_256,
                     EncryptionMode.Randomized,
                     CompressionMode.GZip);
+            });
+
+            modelBuilder.Entity<AesGcmEntity>(p =>
+            {
+                p.HasKey(t => t.Id);
+                p.Property(t => t.Value)
+                .HasEncrypted("AesGcmEntity.Value.2022",
+                    EncrypetionType.AES_GCM,
+                    EncryptionMode.Deterministic,
+                    CompressionMode.None);
+
+                p.Property(t => t.ValueRandomized)
+               .HasEncrypted("AesGcmEntity.ValueRandomized.2022",
+                    EncrypetionType.AES_GCM,
+                    EncryptionMode.Randomized,
+                    CompressionMode.None);
+
+                p.Property(t => t.ValueGzped)
+              .HasEncrypted("AesGcmEntity.ValueGzped.2022",
+                   EncrypetionType.AES_GCM,
+                   EncryptionMode.Randomized,
+                   CompressionMode.GZip);
+
+                p.Property(t => t.Value2)
+                .HasEncrypted("AesGcmEntity.Value2",
+                   EncrypetionType.AES_GCM,
+                   EncryptionMode.Randomized);
+
+                p.Property(t => t.Value3)
+                .HasEncrypted("AesGcmEntity.Value3",
+                   EncrypetionType.AES_GCM,
+                   EncryptionMode.Randomized);
             });
         }
 
@@ -484,6 +522,50 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Tests.TestModel
         }
 
         public StringGZipEntity()
+        {
+
+        }
+    }
+
+    public class AesGcmEntity
+    {
+        public int Id
+        {
+            get;
+            set;
+        }
+
+        public string Value
+        {
+            get;
+            set;
+        }
+
+        public string ValueGzped
+        {
+            get;
+            set;
+        }
+
+        public string ValueRandomized
+        {
+            get;
+            set;
+        }
+
+        public int Value2
+        {
+            get;
+            set;
+        }
+
+        public double Value3
+        {
+            get;
+            set;
+        }
+
+        public AesGcmEntity()
         {
 
         }
