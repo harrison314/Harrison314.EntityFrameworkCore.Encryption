@@ -18,7 +18,11 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Internal.PropertyEncryptors
         public AesGcmDeterministicPropertyEncryptor(byte[] key, byte[] masterKey, byte[] purposeBytes)
         {
             byte[] nonceAndTag = new byte[NonceLen + TagLen];
-            PkcsExtensions.Algorithms.SP800_108.DeriveKey(() => new HMACSHA256(), masterKey, purposeBytes, derivedOutput: nonceAndTag, counter: 4512181);
+            PkcsExtensions.Algorithms.SP800_108.DeriveKey(() => new HMACSHA256(), 
+                masterKey, 
+                purposeBytes, 
+                derivedOutput: nonceAndTag, 
+                counter: PropertyEncryptorsConstants.AesGcmDeterministicCounter);
 
             this.key = key;
             this.nonceAndTag = nonceAndTag;

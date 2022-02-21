@@ -5,3 +5,4 @@ using System.Text;
 using System.Threading.Tasks;
 
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo("Harrison314.EntityFrameworkCore.Encryption.Contrib")]
+[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("Harrison314.EntityFrameworkCore.Encryption.Tests")]
