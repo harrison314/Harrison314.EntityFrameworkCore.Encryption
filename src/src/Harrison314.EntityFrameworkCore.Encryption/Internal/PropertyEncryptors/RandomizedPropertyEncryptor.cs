@@ -28,32 +28,39 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Internal.PropertyEncryptors
                 seed,
                 derivedOutput: internalKey);
 
-            using Aes aes = Aes.Create();
-            aes.Mode = CipherMode.CBC;
-            aes.Padding = PaddingMode.PKCS7;
-            aes.Key = internalKey;
-            aes.GenerateIV();
+            try
+            {
+                using Aes aes = Aes.Create();
+                aes.Mode = CipherMode.CBC;
+                aes.Padding = PaddingMode.PKCS7;
+                aes.Key = internalKey;
+                aes.GenerateIV();
 
-            using HMAC hmac = new HMACSHA256();
-            hmac.Key = internalKey;
+                using HMAC hmac = new HMACSHA256();
+                hmac.Key = internalKey;
 
-            using ICryptoTransform encryptor = aes.CreateEncryptor();
-            byte[] encrypted = encryptor.TransformFinalBlock(data, 0, data.Length);
+                using ICryptoTransform encryptor = aes.CreateEncryptor();
+                byte[] encrypted = encryptor.TransformFinalBlock(data, 0, data.Length);
 
-            byte[] rv = new byte[32 + seed.Length + aes.IV.Length + encrypted.Length];
-            Buffer.BlockCopy(seed, 0, rv, 32, seed.Length);
-            Buffer.BlockCopy(aes.IV, 0, rv, 32 + seed.Length, aes.IV.Length);
-            Buffer.BlockCopy(encrypted, 0, rv, 32 + seed.Length + aes.IV.Length, encrypted.Length);
+                byte[] rv = new byte[32 + seed.Length + aes.IV.Length + encrypted.Length];
+                Buffer.BlockCopy(seed, 0, rv, 32, seed.Length);
+                Buffer.BlockCopy(aes.IV, 0, rv, 32 + seed.Length, aes.IV.Length);
+                Buffer.BlockCopy(encrypted, 0, rv, 32 + seed.Length + aes.IV.Length, encrypted.Length);
 
-            hmac.TryComputeHash(rv.AsSpan(32), rv.AsSpan(0, 32), out _);
+                hmac.TryComputeHash(rv.AsSpan(32), rv.AsSpan(0, 32), out _);
 
-            return rv;
+                return rv;
+            }
+            finally
+            {
+                CryptographicOperations.ZeroMemory(internalKey);
+            }
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Security", "SCS0013:Potential usage of weak CipherMode.", Justification = "<Pending>")]
         public byte[] Unprotect(byte[] data)
         {
-            byte[] internalKey = new byte[32]; //Do sharovaneho objektu
+            byte[] internalKey = new byte[32];
 
             PkcsExtensions.Algorithms.SP800_108.DeriveKey(() => new HMACSHA256(),
                 this.key,
@@ -65,7 +72,7 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Internal.PropertyEncryptors
             aes.Padding = PaddingMode.PKCS7;
             aes.Key = internalKey;
 
-            byte[] iv = new byte[16]; // dosherovaneho objektu
+            byte[] iv = new byte[16];
             Buffer.BlockCopy(data, 32 + 32, iv, 0, 16);
             aes.IV = iv;
 
@@ -88,6 +95,10 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Internal.PropertyEncryptors
             catch (CryptographicException ex)
             {
                 throw new EfEncryptionException(Strings.UnprotectEncryptedException, ex);
+            }
+            finally
+            {
+                CryptographicOperations.ZeroMemory(internalKey);
             }
         }
 

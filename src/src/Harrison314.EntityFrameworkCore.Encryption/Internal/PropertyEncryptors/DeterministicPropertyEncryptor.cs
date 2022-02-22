@@ -41,10 +41,8 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Internal.PropertyEncryptors
 
             using ICryptoTransform encryptor = aes.CreateEncryptor();
             byte[] encrypted = encryptor.TransformFinalBlock(data, 0, data.Length);
-            // byte[] aead = hmac.ComputeHash(encrypted); //TODO compute inplace
 
             byte[] rv = new byte[32 + encrypted.Length];
-            // System.Buffer.BlockCopy(aead, 0, rv, 0, aead.Length);
             System.Buffer.BlockCopy(encrypted, 0, rv, 32, encrypted.Length);
             hmac.TryComputeHash(encrypted, rv.AsSpan(0, 32), out _);
 
