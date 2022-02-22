@@ -39,7 +39,6 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Internal.PropertyEncryptors
                 reult.AsSpan(0, TagLen),
                 default);
 
-
             return reult;
         }
 

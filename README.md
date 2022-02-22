@@ -28,7 +28,8 @@ _Harrison314.EntityFrameworkCore.Encryption_ is a [Microsoft Entity Framework Co
 ![High-level application architecture](doc/Highlevel_diagram.png)
 
 ## Cryptography
-The following dataflow diagrams shows the encryption and derivation of the key for a record property.
+The following dataflow diagrams shows the encryption and derivation of the key
+for a record property with `EncrypetionType.AEAD_AES_256_CBC_HMAC_SHA_256`.
 
 With randomized encryption mode:
 
@@ -38,6 +39,7 @@ With deterministic encryption mode:
 
 ![Dataflow encryption randomized](doc/Dataflow_encryption_deterministic.png)
 
+Alternative encryption type is `EncrypetionType.AES_GCM`.
 ## How to use
 
 ### Sample data model

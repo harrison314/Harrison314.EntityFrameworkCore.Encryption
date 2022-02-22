@@ -36,7 +36,6 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Internal.PropertyEncryptors
 
             using AesGcm aesgcm = new AesGcm(internalKey);
 
-
             aesgcm.Encrypt(reult.AsSpan(SeedLen, NonceLen),
                 data,
                 reult.AsSpan(SeedLen + NonceLen + TagLen),
