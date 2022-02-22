@@ -11,7 +11,7 @@ _Harrison314.EntityFrameworkCore.Encryption_ is a [Microsoft Entity Framework Co
 * Key rotation.
 * Simple for use.
 * Deterministic or randomized encryption.
-* Build using standard cryptographic algorithms (AES, HMAC SHA2, SP800-108, PBKDF-2,...).
+* Build using standard cryptographic algorithms (AES, AES_GCM, HMAC SHA2, SP800-108, PBKDF-2,...).
 * Data compression (GZip, LZW).
 * Internal or external (out of process or on another server e.c. Azure Key Valut) encryption providers.
 * Emergency KillSwitch (e.g. for wipe private keys and exiting application when the smartcard is ripped off).
@@ -39,7 +39,8 @@ With deterministic encryption mode:
 
 ![Dataflow encryption randomized](doc/Dataflow_encryption_deterministic.png)
 
-Alternative encryption type is `EncrypetionType.AES_GCM`.
+Alternative encryption type `EncrypetionType.AES_GCM` use equivalent derivation keys and nonce.
+
 ## How to use
 
 ### Sample data model
