@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFrameworks>net6.0</TargetFrameworks>
     <Authors>harrison314</Authors>
-    <Copyright>harrison314 (c) 2021</Copyright>
+    <Copyright>harrison314 (c) 2022</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/harrison314/Harrison314.EntityFrameworkCore.Encryption/</PackageProjectUrl>
     <RepositoryType>git</RepositoryType>
