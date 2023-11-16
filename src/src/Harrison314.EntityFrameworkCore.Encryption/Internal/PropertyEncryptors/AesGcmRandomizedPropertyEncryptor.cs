@@ -34,7 +34,7 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Internal.PropertyEncryptors
                 seed,
                 derivedOutput: internalKey);
 
-            using AesGcm aesgcm = new AesGcm(internalKey);
+            using AesGcm aesgcm = new AesGcm(internalKey, TagLen);
 
             aesgcm.Encrypt(reult.AsSpan(SeedLen, NonceLen),
                 data,
@@ -57,7 +57,7 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Internal.PropertyEncryptors
 
             byte[] plaintext = new byte[data.Length - (SeedLen + NonceLen + TagLen)];
 
-            using AesGcm aesgcm = new AesGcm(internalKey);
+            using AesGcm aesgcm = new AesGcm(internalKey, TagLen);
             try
             {
                 aesgcm.Decrypt(data.AsSpan(SeedLen, NonceLen),

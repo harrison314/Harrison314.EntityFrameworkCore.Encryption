@@ -50,7 +50,7 @@ namespace Harrison314.EntityFrameworkCore.Encryption.CryptoProviders
 
             byte[] encryptedKey = new byte[masterKey.Length];
 
-            using AesGcm aes = new AesGcm(key);
+            using AesGcm aes = new AesGcm(key, passwordData.AesGcmTag.Length);
             aes.Encrypt(passwordData.AesGcmNonce, masterKey, encryptedKey, passwordData.AesGcmTag);
 
             MasterKeyData masterKeyData = new MasterKeyData()
@@ -76,7 +76,7 @@ namespace Harrison314.EntityFrameworkCore.Encryption.CryptoProviders
             byte[] key = this.DerieveKey(passwordData);
 
             byte[] decryptedKey = new byte[masterKeyData.Data.Length];
-            using AesGcm aes = new AesGcm(key);
+            using AesGcm aes = new AesGcm(key, passwordData.AesGcmTag.Length);
             aes.Decrypt(passwordData.AesGcmNonce, masterKeyData.Data, passwordData.AesGcmTag, decryptedKey);
 
             return new ValueTask<byte[]>(decryptedKey);
@@ -84,7 +84,7 @@ namespace Harrison314.EntityFrameworkCore.Encryption.CryptoProviders
 
         private byte[] DerieveKey(PasswordData passwordData, int keySize = 32)
         {
-            using Rfc2898DeriveBytes pbkdf2 = new Rfc2898DeriveBytes(this.passwordData, passwordData.PasswordSalt, passwordData.Iterations);
+            using Rfc2898DeriveBytes pbkdf2 = new Rfc2898DeriveBytes(this.passwordData, passwordData.PasswordSalt, passwordData.Iterations, HashAlgorithmName.SHA1);
             return pbkdf2.GetBytes(keySize);
         }
 

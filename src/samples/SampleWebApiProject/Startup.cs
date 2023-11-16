@@ -52,7 +52,7 @@ namespace SampleWebApiProject
             app.UseAuthorization();
 
             app.UseOpenApi();
-            app.UseSwaggerUi3();
+            app.UseSwaggerUi();
 
             app.UseEndpoints(endpoints =>
             {

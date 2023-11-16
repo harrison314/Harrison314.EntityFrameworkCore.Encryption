@@ -22,10 +22,5 @@ namespace Harrison314.EntityFrameworkCore.Encryption
             : base(message, innerException)
         {
         }
-
-        protected EfEncryptionException(SerializationInfo info, StreamingContext context) 
-            : base(info, context)
-        {
-        }
     }
 }

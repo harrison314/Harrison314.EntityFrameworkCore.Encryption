@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net6.0</TargetFrameworks>
+    <TargetFrameworks>net8.0</TargetFrameworks>
     <Authors>harrison314</Authors>
-    <Copyright>harrison314 (c) 2022</Copyright>
+    <Copyright>harrison314 (c) 2023</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/harrison314/Harrison314.EntityFrameworkCore.Encryption/</PackageProjectUrl>
     <RepositoryType>git</RepositoryType>
@@ -12,19 +12,19 @@
 Work with any database and using standard cryptographic algorithms (AES, HMAC SHA, SP800-108, PBKDF-2,...).</Description>
     <PackageIcon>NugetIcon.png</PackageIcon>
     <Nullable>enable</Nullable>
-    <Version>1.2.0</Version>
+    <Version>1.3.0</Version>
     <PackageTags>EF Core, Entity Framework core, Encryption, Database encryption, Transparent Encryption, AES, AEAD</PackageTags>
-    <AssemblyVersion>1.2.0.0</AssemblyVersion>
-    <FileVersion>1.2.0.0</FileVersion>
+    <AssemblyVersion>1.3.0.0</AssemblyVersion>
+    <FileVersion>1.3.0.0</FileVersion>
     <ImplicitUsings>disable</ImplicitUsings>
   </PropertyGroup>
 
-  <ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Http" Version="6.0.0" />
+  <ItemGroup Condition="'$(TargetFramework)' == 'net8.0'">
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.0" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="PkcsExtensions" Version="1.2.1" />
+    <PackageReference Include="PkcsExtensions" Version="1.3.0" />
     <PackageReference Include="SecurityCodeScan.VS2019" Version="5.1.0">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>

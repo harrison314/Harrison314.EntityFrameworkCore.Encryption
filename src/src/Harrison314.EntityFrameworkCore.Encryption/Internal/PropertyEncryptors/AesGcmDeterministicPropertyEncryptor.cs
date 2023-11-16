@@ -32,7 +32,7 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Internal.PropertyEncryptors
         {
             byte[] reult = new byte[data.Length + TagLen];
 
-            using AesGcm aesgcm = new AesGcm(this.key);
+            using AesGcm aesgcm = new AesGcm(this.key, TagLen);
             aesgcm.Encrypt(this.nonce.AsSpan(),
                 data,
                 reult.AsSpan(TagLen),
@@ -46,7 +46,7 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Internal.PropertyEncryptors
         {
             byte[] plaintext = new byte[data.Length - TagLen];
 
-            using AesGcm aesgcm = new AesGcm(this.key);
+            using AesGcm aesgcm = new AesGcm(this.key, TagLen);
 
             try
             {
