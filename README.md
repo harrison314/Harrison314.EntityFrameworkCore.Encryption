@@ -17,7 +17,7 @@ _Harrison314.EntityFrameworkCore.Encryption_ is a [Microsoft Entity Framework Co
 * Emergency KillSwitch (e.g. for wipe private keys and exiting application when the smartcard is ripped off).
 * Encryption providers:
   * Password (only for testyng),
-  * Ceratiricate (Recomandedt use with Windows store with non exportable private keys or SmartCard.),
+  * Certificate (Recomandedt use with Windows store with non exportable private keys or SmartCard.),
   * PKCS11 data objects (in contrib library),
   * Remote provider (in contrib library),
   * DPAPI provider (in contrib library),
