@@ -84,8 +84,11 @@ namespace Harrison314.EntityFrameworkCore.Encryption.CryptoProviders
 
         private byte[] DerieveKey(PasswordData passwordData, int keySize = 32)
         {
-            using Rfc2898DeriveBytes pbkdf2 = new Rfc2898DeriveBytes(this.passwordData, passwordData.PasswordSalt, passwordData.Iterations, HashAlgorithmName.SHA1);
-            return pbkdf2.GetBytes(keySize);
+            return Rfc2898DeriveBytes.Pbkdf2(this.passwordData,
+                 passwordData.PasswordSalt,
+                 passwordData.Iterations,
+                 HashAlgorithmName.SHA1,
+                 keySize);
         }
 
         public ValueTask<string> FilterAcceptKeyIds(List<string> keyIds, CancellationToken cancellationToken)
