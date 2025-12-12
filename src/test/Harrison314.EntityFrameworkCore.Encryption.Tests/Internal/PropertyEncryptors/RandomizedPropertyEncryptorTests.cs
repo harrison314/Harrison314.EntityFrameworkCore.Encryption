@@ -95,7 +95,7 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Tests.Internal.PropertyEncr
                     broken[i] = (byte)(broken[i] + 1);
                 }
 
-                Assert.ThrowsException<EfEncryptionException>(() => encryptor.Unprotect(broken));
+                Assert.Throws<EfEncryptionException>(() => encryptor.Unprotect(broken));
             }
         }
 

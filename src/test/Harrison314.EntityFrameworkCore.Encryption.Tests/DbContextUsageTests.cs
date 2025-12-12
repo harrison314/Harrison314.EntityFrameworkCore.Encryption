@@ -42,7 +42,7 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Tests
                 SSI = "000000"
             });
 
-            await Assert.ThrowsExceptionAsync<DbUpdateException>(async () => await context.SaveChangesAsync());
+            await Assert.ThrowsAsync<DbUpdateException>(async () => await context.SaveChangesAsync());
         }
 
         [TestMethod]
