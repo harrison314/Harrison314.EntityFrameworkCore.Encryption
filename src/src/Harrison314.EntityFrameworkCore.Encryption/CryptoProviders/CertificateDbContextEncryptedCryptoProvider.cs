@@ -6,7 +6,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using PkcsExtensions.X509Certificates;
+using Harrison314.EntityFrameworkCore.Encryption.Extensions;
 
 namespace Harrison314.EntityFrameworkCore.Encryption.CryptoProviders
 {

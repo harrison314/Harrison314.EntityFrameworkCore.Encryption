@@ -61,7 +61,7 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Internal
         {
             byte[] purposeBytes = Encoding.UTF8.GetBytes(purpose);
             byte[] propertyKey = new byte[32];
-            PkcsExtensions.Algorithms.SP800_108.DeriveKey(() => new HMACSHA256(), this.masterKey, purposeBytes, derivedOutput: propertyKey);
+            SP800_108.DeriveKey(() => new HMACSHA256(), this.masterKey, purposeBytes, derivedOutput: propertyKey);
 
             return (encrypetionType, encryptionMode) switch
             {

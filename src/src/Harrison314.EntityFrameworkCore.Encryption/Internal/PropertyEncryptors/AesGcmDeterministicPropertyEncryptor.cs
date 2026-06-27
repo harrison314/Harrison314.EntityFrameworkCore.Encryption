@@ -18,7 +18,7 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Internal.PropertyEncryptors
         public AesGcmDeterministicPropertyEncryptor(byte[] key, byte[] masterKey, byte[] purposeBytes)
         {
             byte[] nonce = new byte[NonceLen];
-            PkcsExtensions.Algorithms.SP800_108.DeriveKey(() => new HMACSHA256(),
+            SP800_108.DeriveKey(() => new HMACSHA256(),
                 masterKey,
                 purposeBytes,
                 derivedOutput: nonce,

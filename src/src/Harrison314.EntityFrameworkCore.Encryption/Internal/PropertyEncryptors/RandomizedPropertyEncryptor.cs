@@ -23,7 +23,7 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Internal.PropertyEncryptors
             RandomNumberGenerator.Fill(seed);
             byte[] internalKey = new byte[32];
 
-            PkcsExtensions.Algorithms.SP800_108.DeriveKey(() => new HMACSHA256(),
+            SP800_108.DeriveKey(() => new HMACSHA256(),
                 this.key,
                 seed,
                 derivedOutput: internalKey);
@@ -62,7 +62,7 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Internal.PropertyEncryptors
         {
             byte[] internalKey = new byte[32];
 
-            PkcsExtensions.Algorithms.SP800_108.DeriveKey(() => new HMACSHA256(),
+            SP800_108.DeriveKey(() => new HMACSHA256(),
                 this.key,
                 data.AsSpan(32, 32),
                 derivedOutput: internalKey);

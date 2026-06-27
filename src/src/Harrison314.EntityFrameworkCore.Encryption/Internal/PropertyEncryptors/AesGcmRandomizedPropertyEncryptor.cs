@@ -29,7 +29,7 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Internal.PropertyEncryptors
 
             RandomNumberGenerator.Fill(reult.AsSpan(0, SeedLen + NonceLen));
 
-            PkcsExtensions.Algorithms.SP800_108.DeriveKey(() => new HMACSHA256(),
+            SP800_108.DeriveKey(() => new HMACSHA256(),
                 this.key,
                 seed,
                 derivedOutput: internalKey);
@@ -50,7 +50,7 @@ namespace Harrison314.EntityFrameworkCore.Encryption.Internal.PropertyEncryptors
             Span<byte> seed = data.AsSpan(0, SeedLen);
             Span<byte> internalKey = stackalloc byte[KeyLen];
 
-            PkcsExtensions.Algorithms.SP800_108.DeriveKey(() => new HMACSHA256(),
+            SP800_108.DeriveKey(() => new HMACSHA256(),
                 this.key,
                 seed,
                 derivedOutput: internalKey);
